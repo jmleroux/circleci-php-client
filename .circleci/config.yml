@@ -37,7 +37,7 @@ jobs:
                     command: ./vendor/bin/php-cs-fixer  fix  --config=.php_cs.php --diff --dry-run -v
             -   run:
                     name: Unit tests
-                    command: ./vendor/bin/phpunit tests/Unit
+                    command: ./vendor/bin/phpunit
 
 workflows:
     version: 2
