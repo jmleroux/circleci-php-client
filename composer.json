@@ -1,0 +1,13 @@
+{
+    "name": "jmleroux/cirecleci-php-client",
+    "description": "CircleCI PHP client",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jmleroux",
+            "email": "jmleroux.pro@gmail.com"
+        }
+    ],
+    "require": {}
+}
