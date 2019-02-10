@@ -11,8 +11,8 @@ services:
             XDEBUG_CONFIG: 'remote_host=172.17.0.1'
         user: docker
         volumes:
-            - ./:/srv/nightly
+            - ./:/srv/project
             - ~/.composer:/home/docker/.composer
-        working_dir: /srv/nightly
+        working_dir: /srv/project
         ports:
             - '8000:8000'
