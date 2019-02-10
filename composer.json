@@ -9,5 +9,21 @@
             "email": "jmleroux.pro@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "webmozart/assert": "^1.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0",
+        "friendsofphp/php-cs-fixer": "^2.14"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jmleroux\\CircleCi\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jmleroux\\CircleCi\\Tests\\": "tests/"
+        }
+    }
 }
