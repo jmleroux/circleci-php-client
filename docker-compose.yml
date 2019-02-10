@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+    fpm:
+        image: jmleroux/fpm:php-7.2
+        environment:
+            COMPOSER_HOME: /home/docker/.composer
+            PHP_IDE_CONFIG: 'serverName=circleci-api-client'
+            PHP_XDEBUG_ENABLED: 0
+            PHP_XDEBUG_REMOTE_HOST: 172.17.0.1
+            XDEBUG_CONFIG: 'remote_host=172.17.0.1'
+        user: docker
+        volumes:
+            - ./:/srv/nightly
+            - ~/.composer:/home/docker/.composer
+        working_dir: /srv/nightly
+        ports:
+            - '8000:8000'
