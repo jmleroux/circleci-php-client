@@ -46,8 +46,6 @@ class Project implements ModelInterface
             array_keys($decoded['branches'])
         );
 
-        $project->branches = array_keys($decoded['branches']);
-
         return $project;
     }
 

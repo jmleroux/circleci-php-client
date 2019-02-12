@@ -19,9 +19,16 @@ interface ModelInterface
     public static function createFromJson(string $json);
 
     /**
-     * Retrun JSON representation of the model
+     * Returns JSON representation of the model
      *
      * @return string
      */
     public function toJson(): string;
+
+    /**
+     * Returns array representation of the model
+     *
+     * @return array
+     */
+    public function normalize(): array;
 }
