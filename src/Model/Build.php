@@ -19,9 +19,19 @@ class Build implements ModelInterface
     public $buildTimeMillis;
     /** @var Workflow */
     public $workflow;
+    /** @var string */
+    public $branch;
+    /** @var string */
+    public $reponame;
 
-    private function __construct(int $buildNum, string $status, int $buildTimeMillis, Workflow $workflow)
-    {
+    private function __construct(
+        int $buildNum,
+        string $status,
+        int $buildTimeMillis,
+        Workflow $workflow,
+        string $branch,
+        string $reponame
+    ) {
         Assert::notEmpty($buildNum);
         Assert::notEmpty($status);
         Assert::notEmpty($buildTimeMillis);
@@ -30,6 +40,8 @@ class Build implements ModelInterface
         $this->buildTimeMillis = $buildTimeMillis;
         $this->status = $status;
         $this->workflow = $workflow;
+        $this->branch = $branch;
+        $this->reponame = $reponame;
     }
 
     public static function createFromNormalized(array $decodedValuesValues): Build
@@ -38,7 +50,9 @@ class Build implements ModelInterface
             $decodedValuesValues['build_num'],
             $decodedValuesValues['status'],
             $decodedValuesValues['build_time_millis'],
-            Workflow::createFromNormalized($decodedValuesValues['workflows'])
+            Workflow::createFromNormalized($decodedValuesValues['workflows']),
+            $decodedValuesValues['branch'],
+            $decodedValuesValues['reponame']
         );
 
         return $build;

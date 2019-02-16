@@ -26,8 +26,8 @@ class Workflow implements ModelInterface
         Assert::notEmpty($workflowName);
 
         $this->workflowId = $workflowId;
-        $this->jobName = $jobName;
         $this->workflowName = $workflowName;
+        $this->jobName = $jobName;
         $this->jobId = $jobId;
     }
 
