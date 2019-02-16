@@ -18,6 +18,8 @@ class Job implements ModelInterface
     /** @var int */
     private $buildNum;
     /** @var string */
+    public $reponame;
+    /** @var string */
     private $branch;
     /** @var \DateTime */
     private $startTime;
@@ -31,11 +33,14 @@ class Job implements ModelInterface
     private $status;
     /** @var Step[] */
     private $steps = [];
+    /** @var Workflow */
+    public $workflow;
 
     private function __construct(
         string $vcsUrl,
         string $buildUrl,
         int $buildNum,
+        string $reponame,
         string $branch,
         \DateTime $startTime,
         \DateTime $stopTime,
@@ -56,6 +61,7 @@ class Job implements ModelInterface
         $this->buildTimeMillis = $buildTimeMillis;
         $this->outcome = $outcome;
         $this->status = $status;
+        $this->reponame = $reponame;
     }
 
     public static function createFromNormalized(array $decodedValues): Job
@@ -64,6 +70,7 @@ class Job implements ModelInterface
             $decodedValues['vcs_url'],
             $decodedValues['build_url'],
             $decodedValues['build_num'],
+            $decodedValues['reponame'],
             $decodedValues['branch'],
             new \DateTime($decodedValues['start_time']),
             new \DateTime($decodedValues['stop_time']),
@@ -77,7 +84,16 @@ class Job implements ModelInterface
             $project->steps[$step->name] = $step;
         }
 
+        if (isset($decodedValues['workflows'])) {
+            $project->addWorkflow(Workflow::createFromNormalized($decodedValues['workflows']));
+        }
+
         return $project;
+    }
+
+    private function addWorkflow(Workflow $workflow)
+    {
+        $this->workflow = $workflow;
     }
 
     public function toJson(): string
@@ -100,6 +116,16 @@ class Job implements ModelInterface
             'steps' => array_map(function (Step $step) {
                 return $step->normalize();
             }, $this->steps),
+            'workflows' => $this->workflow ? $this->workflow->normalize() : null,
         ];
+    }
+
+    public function duration(): string
+    {
+        $hours = floor($this->buildTimeMillis / 1000 / 3600);
+        $minutes = floor(($this->buildTimeMillis / 1000 / 60) % 60);
+        $seconds = ($this->buildTimeMillis / 1000) % 60;
+
+        return sprintf('%d:%02d:%02d', $hours, $minutes, $seconds);
     }
 }

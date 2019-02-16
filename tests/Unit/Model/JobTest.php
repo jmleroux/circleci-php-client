@@ -56,6 +56,7 @@ class JobTest extends TestCase
 //                        ],
                 ],
             ],
+            'workflows' => null
         ];
 
         $this->assertSame($expected, $job->normalize());
