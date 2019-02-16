@@ -36,15 +36,11 @@ class JobTest extends TestCase
                     'name' => 'configure the build',
 //                    'actions' => [
 //                        [
-//                            'bash_command' => null,
+//                            'name' => 'named_action',
+//                            'status' => 'success',
 //                            'run_time_millis' => 1646,
 //                            'start_time' => '2013-02-12T21:33:38Z',
 //                            'end_time' => '2013-02-12T21:33:39Z',
-//                            'name' => 'configure the build',
-//                            'exit_code' => null,
-//                            'type' => 'infrastructure',
-//                            'index' => 0,
-//                            'status' => 'success',
 //                        ],
 //                    ],
                 ],
@@ -52,20 +48,11 @@ class JobTest extends TestCase
                     'name' => 'lein2 deps',
 //                    'actions' => [
 //                        [
-//                            'bash_command' => 'lein2 deps',
+//                            'name' => '',
+//                            'status' => 'success',
 //                            'run_time_millis' => 7555,
 //                            'start_time' => '2013-02-12T21:33:47Z',
-//                            'messages' =>
-//                                [
-//                                ],
-//                            'step' => 1,
-//                            'exit_code' => 0,
 //                            'end_time' => '2013-02-12T21:33:54Z',
-//                            'index' => 0,
-//                            'status' => 'success',
-//                            'type' => 'dependencies',
-//                            'source' => 'inference',
-//                            'failed' => null,
 //                        ],
                 ],
             ],
