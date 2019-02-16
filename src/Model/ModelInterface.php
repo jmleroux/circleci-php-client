@@ -10,13 +10,13 @@ namespace Jmleroux\CircleCi\Model;
 interface ModelInterface
 {
     /**
-     * Create a model form a JSON string
+     * Create a model from a decoded JSON array
      *
-     * @param string $json
+     * @param array $decodedValuesValues
      *
      * @return ModelInterface
      */
-    public static function createFromJson(string $json);
+    public static function createFromNormalized(array $decodedValuesValues);
 
     /**
      * Returns JSON representation of the model

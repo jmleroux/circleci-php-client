@@ -58,23 +58,21 @@ class Job implements ModelInterface
         $this->status = $status;
     }
 
-    public static function createFromJson(string $json): Job
+    public static function createFromNormalized(array $decodedValues): Job
     {
-        $decoded = json_decode($json, true);
-
         $project = new self(
-            $decoded['vcs_url'],
-            $decoded['build_url'],
-            $decoded['build_num'],
-            $decoded['branch'],
-            new \DateTime($decoded['start_time']),
-            new \DateTime($decoded['stop_time']),
-            $decoded['build_time_millis'],
-            $decoded['outcome'],
-            $decoded['status']
+            $decodedValues['vcs_url'],
+            $decodedValues['build_url'],
+            $decodedValues['build_num'],
+            $decodedValues['branch'],
+            new \DateTime($decodedValues['start_time']),
+            new \DateTime($decodedValues['stop_time']),
+            $decodedValues['build_time_millis'],
+            $decodedValues['outcome'],
+            $decodedValues['status']
         );
 
-        foreach ($decoded['steps'] as $stepValues) {
+        foreach ($decodedValues['steps'] as $stepValues) {
             $step = Step::createFromArray($stepValues);
             $project->steps[$step->name] = $step;
         }

@@ -34,6 +34,19 @@ class Project implements ModelInterface
         $this->branches = $branches;
     }
 
+    public static function createFromNormalized(array $decodedValuesValues): Project
+    {
+        $project = new self(
+            $decodedValuesValues['vcs_url'],
+            $decodedValuesValues['followed'],
+            $decodedValuesValues['username'],
+            $decodedValuesValues['reponame'],
+            array_keys($decodedValuesValues['branches'])
+        );
+
+        return $project;
+    }
+
     public static function createFromJson(string $json): Project
     {
         $decoded = json_decode($json, true);

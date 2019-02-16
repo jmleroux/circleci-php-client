@@ -1,5 +1,5 @@
 {
-    "name": "jmleroux/cirecleci-php-client",
+    "name": "jmleroux/circleci-php-client",
     "description": "CircleCI PHP client",
     "type": "library",
     "license": "MIT",
