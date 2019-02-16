@@ -12,27 +12,27 @@ use Webmozart\Assert\Assert;
 class Job implements ModelInterface
 {
     /** @var string */
-    private $vcsUrl;
+    public $vcsUrl;
     /** @var string */
-    private $buildUrl;
+    public $buildUrl;
     /** @var int */
-    private $buildNum;
+    public $buildNum;
     /** @var string */
     public $reponame;
     /** @var string */
-    private $branch;
+    public $branch;
     /** @var \DateTime */
-    private $startTime;
+    public $startTime;
     /** @var \DateTime */
-    private $stopTime;
+    public $stopTime;
     /** @var int */
-    private $buildTimeMillis;
+    public $buildTimeMillis;
     /** @var string */
-    private $outcome;
+    public $outcome;
     /** @var string */
-    private $status;
+    public $status;
     /** @var Step[] */
-    private $steps = [];
+    public $steps = [];
     /** @var Workflow */
     public $workflow;
 
@@ -79,9 +79,11 @@ class Job implements ModelInterface
             $decodedValues['status']
         );
 
-        foreach ($decodedValues['steps'] as $stepValues) {
-            $step = Step::createFromNormalized($stepValues);
-            $project->steps[$step->name] = $step;
+        if (isset($decodedValues['steps'])) {
+            foreach ($decodedValues['steps'] as $stepValues) {
+                $step = Step::createFromNormalized($stepValues);
+                $project->steps[$step->name] = $step;
+            }
         }
 
         if (isset($decodedValues['workflows'])) {
@@ -91,7 +93,7 @@ class Job implements ModelInterface
         return $project;
     }
 
-    private function addWorkflow(Workflow $workflow)
+    public function addWorkflow(Workflow $workflow)
     {
         $this->workflow = $workflow;
     }
