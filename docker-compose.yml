@@ -14,5 +14,3 @@ services:
             - ./:/srv/project
             - ~/.composer:/home/docker/.composer
         working_dir: /srv/project
-        ports:
-            - '8000:8000'
