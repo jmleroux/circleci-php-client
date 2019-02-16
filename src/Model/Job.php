@@ -73,7 +73,7 @@ class Job implements ModelInterface
         );
 
         foreach ($decodedValues['steps'] as $stepValues) {
-            $step = Step::createFromArray($stepValues);
+            $step = Step::createFromNormalized($stepValues);
             $project->steps[$step->name] = $step;
         }
 

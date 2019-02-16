@@ -9,7 +9,7 @@ use Webmozart\Assert\Assert;
 /**
  * @author jmleroux <jmleroux.pro@gmail.com>
  */
-class Step
+class Step implements ModelInterface
 {
     /** @var string */
     public $name;
@@ -24,7 +24,7 @@ class Step
         $this->actions = $actions;
     }
 
-    public static function createFromArray(array $values): Step
+    public static function createFromNormalized(array $values): Step
     {
         Assert::keyExists($values, 'name');
         Assert::keyExists($values, 'actions');
@@ -44,5 +44,10 @@ class Step
         return [
             'name' => $this->name,
         ];
+    }
+
+    public function toJson(): string
+    {
+        return json_encode($this->normalize());
     }
 }

@@ -12,14 +12,14 @@ class ProjectTest extends TestCase
     public function testCreateFromJson()
     {
         $json = file_get_contents(__DIR__ . '/../resources/project.json');
-        $project = Project::createFromJson($json);
+        $project = Project::createFromNormalized(json_decode($json, true));
         $this->assertInstanceOf(Project::class, $project);
     }
 
     public function testNormalize()
     {
         $json = file_get_contents(__DIR__ . '/../resources/project.json');
-        $project = Project::createFromJson($json);
+        $project = Project::createFromNormalized(json_decode($json, true));
 
         $expected = [
             'vcs_url' => 'https://github.com/circleci/mongofinil',

@@ -12,14 +12,14 @@ class JobTest extends TestCase
     public function testCreateFromJson()
     {
         $json = file_get_contents(__DIR__ . '/../resources/job.json');
-        $job = Job::createFromJson($json);
+        $job = Job::createFromNormalized(json_decode($json, true));
         $this->assertInstanceOf(Job::class, $job);
     }
 
     public function testNormalize()
     {
         $json = file_get_contents(__DIR__ . '/../resources/job.json');
-        $job = Job::createFromJson($json);
+        $job = Job::createFromNormalized(json_decode($json, true));
 
         $expected = [
             'vcsUrl' => 'https://github.com/circleci/mongofinil',

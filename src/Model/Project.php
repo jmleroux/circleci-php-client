@@ -47,21 +47,6 @@ class Project implements ModelInterface
         return $project;
     }
 
-    public static function createFromJson(string $json): Project
-    {
-        $decoded = json_decode($json, true);
-
-        $project = new self(
-            $decoded['vcs_url'],
-            $decoded['followed'],
-            $decoded['username'],
-            $decoded['reponame'],
-            array_keys($decoded['branches'])
-        );
-
-        return $project;
-    }
-
     public function normalize(): array
     {
         return [
