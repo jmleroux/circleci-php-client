@@ -44,8 +44,8 @@ class Job implements ModelInterface
         string $branch,
         ?\DateTime $startTime,
         ?\DateTime $stopTime,
-        int $buildTimeMillis,
-        string $outcome,
+        ?int $buildTimeMillis,
+        ?string $outcome,
         string $status
     ) {
         Assert::notEmpty($vcsUrl);
@@ -72,8 +72,8 @@ class Job implements ModelInterface
             $decodedValues['branch'],
             null !== $decodedValues['start_time'] ? new \DateTime($decodedValues['start_time']) : null,
             null !== $decodedValues['stop_time'] ? new \DateTime($decodedValues['stop_time']) : null,
-            $decodedValues['build_time_millis'],
-            $decodedValues['outcome'],
+            null !== $decodedValues['build_time_millis'] ? $decodedValues['build_time_millis'] : null,
+            null !== $decodedValues['outcome'] ? $decodedValues['outcome'] : null,
             $decodedValues['status']
         );
 
