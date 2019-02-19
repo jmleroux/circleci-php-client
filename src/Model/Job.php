@@ -21,9 +21,9 @@ class Job implements ModelInterface
     public $reponame;
     /** @var string */
     public $branch;
-    /** @var \DateTime */
+    /** @var \DateTime|null */
     public $startTime;
-    /** @var \DateTime */
+    /** @var \DateTime|null */
     public $stopTime;
     /** @var int */
     public $buildTimeMillis;
@@ -42,15 +42,13 @@ class Job implements ModelInterface
         int $buildNum,
         string $reponame,
         string $branch,
-        \DateTime $startTime,
-        \DateTime $stopTime,
+        ?\DateTime $startTime,
+        ?\DateTime $stopTime,
         int $buildTimeMillis,
         string $outcome,
         string $status
     ) {
         Assert::notEmpty($vcsUrl);
-        Assert::notEmpty($startTime);
-        Assert::notEmpty($stopTime);
 
         $this->vcsUrl = $vcsUrl;
         $this->buildUrl = $buildUrl;
@@ -72,8 +70,8 @@ class Job implements ModelInterface
             $decodedValues['build_num'],
             $decodedValues['reponame'],
             $decodedValues['branch'],
-            new \DateTime($decodedValues['start_time']),
-            new \DateTime($decodedValues['stop_time']),
+            null !== $decodedValues['start_time'] ? new \DateTime($decodedValues['start_time']) : null,
+            null !== $decodedValues['stop_time'] ? new \DateTime($decodedValues['stop_time']) : null,
             $decodedValues['build_time_millis'],
             $decodedValues['outcome'],
             $decodedValues['status']
@@ -110,8 +108,8 @@ class Job implements ModelInterface
             'buildUrl' => $this->buildUrl,
             'buildNum' => $this->buildNum,
             'branch' => $this->branch,
-            'startTime' => $this->startTime->format('Y-m-d H:i:s'),
-            'stopTime' => $this->stopTime->format('Y-m-d H:i:s'),
+            'startTime' => $this->startTime ? $this->startTime->format('Y-m-d H:i:s') : null,
+            'stopTime' => $this->stopTime ? $this->stopTime->format('Y-m-d H:i:s') : null,
             'buildTimeMillis' => $this->buildTimeMillis,
             'outcome' => $this->outcome,
             'status' => $this->status,
