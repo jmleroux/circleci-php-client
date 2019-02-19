@@ -11,14 +11,14 @@ class JobTest extends TestCase
 {
     public function testCreateFromJson()
     {
-        $json = file_get_contents(__DIR__ . '/../resources/job.json');
+        $json = file_get_contents(__DIR__ . '/../resources/job-with-steps.json');
         $job = Job::createFromNormalized(json_decode($json, true));
         $this->assertInstanceOf(Job::class, $job);
     }
 
     public function testNormalize()
     {
-        $json = file_get_contents(__DIR__ . '/../resources/job.json');
+        $json = file_get_contents(__DIR__ . '/../resources/job-with-steps.json');
         $job = Job::createFromNormalized(json_decode($json, true));
 
         $expected = [
@@ -29,6 +29,8 @@ class JobTest extends TestCase
             'startTime' => '2013-02-12 21:33:38',
             'stopTime' => '2013-02-12 21:34:01',
             'buildTimeMillis' => 23505,
+            'username' => 'circleci',
+            'reponame' => 'mongofinil',
             'outcome' => 'success',
             'status' => 'success',
             'steps' => [
@@ -56,9 +58,35 @@ class JobTest extends TestCase
 //                        ],
                 ],
             ],
-            'workflows' => null
+            'workflows' => null,
         ];
 
-        $this->assertSame($expected, $job->normalize());
+        $this->assertEquals($expected, $job->normalize());
+
+        $json = file_get_contents(__DIR__ . '/../resources/job-with-workflows.json');
+        $job = Job::createFromNormalized(json_decode($json, true));
+
+        $expected = [
+            'vcsUrl' => 'https://github.com/circleci/mongofinil',
+            'buildUrl' => 'https://circleci.com/gh/circleci/mongofinil/22',
+            'buildNum' => 22,
+            'branch' => 'master',
+            'startTime' => '2013-02-12 21:33:38',
+            'stopTime' => '2013-02-12 21:34:01',
+            'username' => 'circleci',
+            'reponame' => 'mongofinil',
+            'buildTimeMillis' => 23505,
+            'outcome' => 'success',
+            'status' => 'success',
+            'steps' => [],
+            'workflows' => [
+                'workflow_id' => 'my_workflow_id',
+                'workflow_name' => 'my_workflow_name',
+                'job_id' => 'my_job_id',
+                'job_name' => 'my_job_name',
+            ],
+        ];
+
+        $this->assertEquals($expected, $job->normalize());
     }
 }

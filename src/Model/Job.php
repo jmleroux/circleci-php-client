@@ -18,6 +18,8 @@ class Job implements ModelInterface
     /** @var int */
     public $buildNum;
     /** @var string */
+    public $username;
+    /** @var string */
     public $reponame;
     /** @var string */
     public $branch;
@@ -40,6 +42,7 @@ class Job implements ModelInterface
         string $vcsUrl,
         string $buildUrl,
         int $buildNum,
+        string $username,
         string $reponame,
         string $branch,
         ?\DateTime $startTime,
@@ -60,6 +63,7 @@ class Job implements ModelInterface
         $this->outcome = $outcome;
         $this->status = $status;
         $this->reponame = $reponame;
+        $this->username = $username;
     }
 
     public static function createFromNormalized(array $decodedValues): Job
@@ -68,6 +72,7 @@ class Job implements ModelInterface
             $decodedValues['vcs_url'],
             $decodedValues['build_url'],
             $decodedValues['build_num'],
+            $decodedValues['username'],
             $decodedValues['reponame'],
             $decodedValues['branch'],
             null !== $decodedValues['start_time'] ? new \DateTime($decodedValues['start_time']) : null,
@@ -111,6 +116,8 @@ class Job implements ModelInterface
             'startTime' => $this->startTime ? $this->startTime->format('Y-m-d H:i:s') : null,
             'stopTime' => $this->stopTime ? $this->stopTime->format('Y-m-d H:i:s') : null,
             'buildTimeMillis' => $this->buildTimeMillis,
+            'username' => $this->username,
+            'reponame' => $this->reponame,
             'outcome' => $this->outcome,
             'status' => $this->status,
             'steps' => array_map(function (Step $step) {
