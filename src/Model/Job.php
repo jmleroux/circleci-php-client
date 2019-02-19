@@ -72,6 +72,12 @@ class Job implements ModelInterface
 
     public static function createFromNormalized(array $decodedValues): Job
     {
+        if (isset($decodedValues['user'])) {
+            $user = User::createFromNormalized($decodedValues['user']);
+        } else {
+            $user = User::createEmpty();
+        }
+
         $project = new self(
             $decodedValues['vcs_url'],
             $decodedValues['build_url'],
@@ -84,7 +90,7 @@ class Job implements ModelInterface
             null !== $decodedValues['build_time_millis'] ? $decodedValues['build_time_millis'] : null,
             null !== $decodedValues['outcome'] ? $decodedValues['outcome'] : null,
             $decodedValues['status'],
-            User::createFromNormalized($decodedValues['user'])
+            $user
         );
 
         if (isset($decodedValues['steps'])) {

@@ -36,6 +36,11 @@ class User implements ModelInterface
         );
     }
 
+    public static function createEmpty(): User
+    {
+        return new self(false, 'empty_user', 'no_name', null);
+    }
+
     public function toJson(): string
     {
         return json_encode($this->normalize());
