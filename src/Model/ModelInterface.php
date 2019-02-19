@@ -12,11 +12,11 @@ interface ModelInterface
     /**
      * Create a model from a decoded JSON array
      *
-     * @param array $decodedValuesValues
+     * @param array $decodedValues
      *
      * @return ModelInterface
      */
-    public static function createFromNormalized(array $decodedValuesValues);
+    public static function createFromNormalized(array $decodedValues);
 
     /**
      * Returns JSON representation of the model

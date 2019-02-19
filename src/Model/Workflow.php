@@ -31,13 +31,13 @@ class Workflow implements ModelInterface
         $this->jobId = $jobId;
     }
 
-    public static function createFromNormalized(array $decodedValuesValues): Workflow
+    public static function createFromNormalized(array $decodedValues): Workflow
     {
         $workflow = new self(
-            $decodedValuesValues['workflow_id'],
-            $decodedValuesValues['workflow_name'],
-            $decodedValuesValues['job_name'],
-            $decodedValuesValues['job_id']
+            $decodedValues['workflow_id'],
+            $decodedValues['workflow_name'],
+            $decodedValues['job_name'],
+            $decodedValues['job_id']
         );
 
         return $workflow;
