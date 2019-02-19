@@ -33,6 +33,8 @@ class Job implements ModelInterface
     public $outcome;
     /** @var string */
     public $status;
+    /** @var User */
+    public $user;
     /** @var Step[] */
     public $steps = [];
     /** @var Workflow */
@@ -49,7 +51,8 @@ class Job implements ModelInterface
         ?\DateTime $stopTime,
         ?int $buildTimeMillis,
         ?string $outcome,
-        string $status
+        string $status,
+        User $user
     ) {
         Assert::notEmpty($vcsUrl);
 
@@ -64,10 +67,17 @@ class Job implements ModelInterface
         $this->status = $status;
         $this->reponame = $reponame;
         $this->username = $username;
+        $this->user = $user;
     }
 
     public static function createFromNormalized(array $decodedValues): Job
     {
+        if (isset($decodedValues['user'])) {
+            $user = User::createFromNormalized($decodedValues['user']);
+        } else {
+            $user = User::createEmpty();
+        }
+
         $project = new self(
             $decodedValues['vcs_url'],
             $decodedValues['build_url'],
@@ -79,7 +89,8 @@ class Job implements ModelInterface
             null !== $decodedValues['stop_time'] ? new \DateTime($decodedValues['stop_time']) : null,
             null !== $decodedValues['build_time_millis'] ? $decodedValues['build_time_millis'] : null,
             null !== $decodedValues['outcome'] ? $decodedValues['outcome'] : null,
-            $decodedValues['status']
+            $decodedValues['status'],
+            $user
         );
 
         if (isset($decodedValues['steps'])) {

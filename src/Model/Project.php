@@ -34,14 +34,14 @@ class Project implements ModelInterface
         $this->branches = $branches;
     }
 
-    public static function createFromNormalized(array $decodedValuesValues): Project
+    public static function createFromNormalized(array $decodedValues): Project
     {
         $project = new self(
-            $decodedValuesValues['vcs_url'],
-            $decodedValuesValues['followed'],
-            $decodedValuesValues['username'],
-            $decodedValuesValues['reponame'],
-            array_keys($decodedValuesValues['branches'])
+            $decodedValues['vcs_url'],
+            $decodedValues['followed'],
+            $decodedValues['username'],
+            $decodedValues['reponame'],
+            array_keys($decodedValues['branches'])
         );
 
         return $project;
