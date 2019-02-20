@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class BranchBuildsTest extends TestCase
 {
-    public function testCreateFromJson()
+    public function testQueryOk()
     {
         require dirname(__DIR__) . '/../../vendor/autoload.php';
 
