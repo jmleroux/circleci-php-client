@@ -36,5 +36,7 @@ class BranchLastBuildTest extends TestCase
         );
 
         $build = $query->execute('dummy_branch');
+
+        $this->assertNull($build);
     }
 }
