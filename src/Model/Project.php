@@ -19,7 +19,7 @@ class Project implements ModelInterface
     private $username;
     /** @var string */
     private $reponame;
-    /** @var string[] */
+    /** @var Branch[] */
     private $branches = [];
 
     private function __construct(string $vcsUrl, bool $followed, string $username, string $reponame, array $branches)
@@ -36,12 +36,16 @@ class Project implements ModelInterface
 
     public static function createFromNormalized(array $decodedValues): Project
     {
+        $branches = [];
+        foreach ($decodedValues['branches'] as $name => $branch) {
+            $branches[$name] = Branch::createFromNormalized($name, $branch);
+        }
         $project = new self(
             $decodedValues['vcs_url'],
             $decodedValues['followed'],
             $decodedValues['username'],
             $decodedValues['reponame'],
-            array_keys($decodedValues['branches'])
+            $branches
         );
 
         return $project;
@@ -54,7 +58,9 @@ class Project implements ModelInterface
             'followed' => $this->followed,
             'username' => $this->username,
             'reponame' => $this->reponame,
-            'branches' => $this->branches,
+            'branches' => array_map(function (Branch $branch) {
+                return $branch->normalize();
+            }, $this->branches),
         ];
     }
 

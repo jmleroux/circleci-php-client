@@ -26,7 +26,10 @@ class ProjectTest extends TestCase
             'followed' => true,
             'username' => 'circleci',
             'reponame' => 'mongofinil',
-            'branches' => ['master', "develop"],
+            'branches' => [
+                'master' => ['name' => 'master', 'running_builds' => []],
+                'develop' => ['name' => 'develop', 'running_builds' => []],
+            ],
         ];
 
         $this->assertSame($expected, $project->normalize());
