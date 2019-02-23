@@ -16,12 +16,17 @@ class BranchBuilds
         $this->client = $client;
     }
 
-    public function execute(string $vcsType, string $username, string $reponame, string $branch): array
-    {
+    public function execute(
+        string $vcsType,
+        string $username,
+        string $reponame,
+        string $branch,
+        array $queryParameters = []
+    ): array {
         $uri = sprintf('project/%s/%s/%s/tree/%s', $vcsType, $username, $reponame, $branch);
 
-        $response = $this->client->get($uri);
+        $response = $this->client->get($uri, $queryParameters);
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string)$response->getBody());
     }
 }

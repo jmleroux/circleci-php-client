@@ -16,12 +16,16 @@ class BuildSummary
         $this->client = $client;
     }
 
-    public function execute(string $vcsType, string $username, string $reponame): array
-    {
+    public function execute(
+        string $vcsType,
+        string $username,
+        string $reponame,
+        array $queryParameters = []
+    ): array {
         $uri = sprintf('project/%s/%s/%s', $vcsType, $username, $reponame);
 
-        $response = $this->client->get($uri);
+        $response = $this->client->get($uri, $queryParameters);
 
-        return json_decode((string)$response->getBody(), true);
+        return json_decode((string)$response->getBody());
     }
 }
