@@ -20,9 +20,11 @@ class Client
         $this->token = $token;
     }
 
-    public function get(string $uri): ResponseInterface
+    public function get(string $uri, array $params = []): ResponseInterface
     {
-        $uri .= '?circle-token=:%s';
+        $params[] = sprintf('circle-token=%s', $this->token);
+        $queryString = implode('&', $params);
+        $uri .= sprintf('?%s', $queryString);
 
         return $this->client->get($uri, [
             'headers' => ['Accept' => 'application/json'],
