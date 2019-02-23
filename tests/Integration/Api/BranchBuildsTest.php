@@ -24,6 +24,6 @@ class BranchBuildsTest extends TestCase
 
         $builds = $query->execute('github', 'jmleroux', 'circleci-php-client', 'master');
 
-        $this->assertIsArray($builds);
+        $this->assertInstanceOf(\stdClass::class, $builds);
     }
 }

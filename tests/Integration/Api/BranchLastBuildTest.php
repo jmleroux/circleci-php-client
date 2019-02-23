@@ -24,8 +24,8 @@ class BranchLastBuildTest extends TestCase
 
         $build = $query->execute('github', 'jmleroux', 'circleci-php-client', 'master');
 
-        $this->assertIsArray($build);
-        $this->assertSame('master', $build['branch']);
+        $this->assertInstanceOf(\stdClass::class, $build);
+        $this->assertSame('master', $build->branch);
     }
 
     public function testQueryUnknownBranch()

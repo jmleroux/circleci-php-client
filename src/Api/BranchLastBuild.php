@@ -16,7 +16,7 @@ class BranchLastBuild
         $this->client = $client;
     }
 
-    public function execute(string $vcsType, string $username, string $reponame, string $branch): array
+    public function execute(string $vcsType, string $username, string $reponame, string $branch): ?\stdClass
     {
         $uri = sprintf(
             'project/%s/%s/%s/tree/%s',
@@ -28,8 +28,8 @@ class BranchLastBuild
 
         $response = $this->client->get($uri);
 
-        $builds = json_decode((string)$response->getBody(), true);
+        $builds = json_decode((string)$response->getBody());
 
-        return !empty($builds) ? $builds[0] : [];
+        return !empty($builds) ? $builds[0] : null;
     }
 }
