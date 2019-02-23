@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace Jmleroux\CircleCi\Tests\Unit\Api;
 
 use Jmleroux\CircleCi\Api\BranchBuilds;
+use Jmleroux\CircleCi\Api\SingleBuild;
 use Jmleroux\CircleCi\Client;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
-class BranchBuildsTest extends TestCase
+class SingleBuildTest extends TestCase
 {
     public function testExecute()
     {
-        $expectedString = file_get_contents(__DIR__ . '/../resources/recent_builds.json');
+        $expectedString = file_get_contents(__DIR__ . '/../resources/job-with-steps.json');
         $response = $this->createMock(ResponseInterface::class);
         $message = $this->createMock(StreamInterface::class);
         $response->method('getBody')
@@ -24,15 +25,14 @@ class BranchBuildsTest extends TestCase
 
         $client = $this->createMock(Client::class);
         $client->method('get')
-            ->with('project/github/my_username/my_reponame/tree/my_branch')
+            ->with('project/github/my_username/my_reponame/tree/22')
             ->willReturn($response);
 
-        $query = new BranchBuilds($client);
+        $query = new SingleBuild($client);
 
-        $builds = $query->execute('github', 'my_username', 'my_reponame', 'my_branch');
+        $build = $query->execute('github', 'my_username', 'my_reponame', 22);
 
-        $this->assertIsArray($builds);
-        $this->assertCount(2, $builds);
-        $this->assertEquals(json_decode($expectedString), $builds);
+        $this->assertInstanceOf(\stdClass::class, $build);
+        $this->assertEquals(json_decode($expectedString), $build);
     }
 }

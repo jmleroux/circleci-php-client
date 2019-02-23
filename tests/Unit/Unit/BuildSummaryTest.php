@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Jmleroux\CircleCi\Tests\Unit\Api;
 
 use Jmleroux\CircleCi\Api\BranchBuilds;
+use Jmleroux\CircleCi\Api\BuildSummary;
 use Jmleroux\CircleCi\Client;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
-class BranchBuildsTest extends TestCase
+class BuildSummaryTest extends TestCase
 {
     public function testExecute()
     {
@@ -24,12 +25,12 @@ class BranchBuildsTest extends TestCase
 
         $client = $this->createMock(Client::class);
         $client->method('get')
-            ->with('project/github/my_username/my_reponame/tree/my_branch')
+            ->with('project/github/my_username/my_reponame')
             ->willReturn($response);
 
-        $query = new BranchBuilds($client);
+        $query = new BuildSummary($client);
 
-        $builds = $query->execute('github', 'my_username', 'my_reponame', 'my_branch');
+        $builds = $query->execute('github', 'my_username', 'my_reponame');
 
         $this->assertIsArray($builds);
         $this->assertCount(2, $builds);
