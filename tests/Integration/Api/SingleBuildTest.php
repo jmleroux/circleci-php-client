@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jmleroux\CircleCi\Tests\Integration\Api;
 
-use Jmleroux\CircleCi\Api\BuildSummary;
 use Jmleroux\CircleCi\Api\SingleBuild;
 use Jmleroux\CircleCi\Client;
 use PHPUnit\Framework\TestCase;
@@ -26,5 +25,6 @@ class SingleBuildTest extends TestCase
         $build = $query->execute('github', 'jmleroux', 'circleci-php-client', 50);
 
         $this->assertInstanceOf(\stdClass::class, $build);
-        $this->assertEquals(50, $build->build_num);    }
+        $this->assertEquals(50, $build->build_num);
+    }
 }
