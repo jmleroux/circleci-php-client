@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jmleroux\CircleCi\Query;
+namespace Jmleroux\CircleCi\Api;
 
 use GuzzleHttp\Client;
 use Jmleroux\CircleCi\Model\Job;
