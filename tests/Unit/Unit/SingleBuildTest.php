@@ -24,7 +24,7 @@ class SingleBuildTest extends TestCase
 
         $client = $this->createMock(Client::class);
         $client->method('get')
-            ->with('project/github/my_username/my_reponame/tree/22')
+            ->with('project/github/my_username/my_reponame/22')
             ->willReturn($response);
 
         $query = new SingleBuild($client);
