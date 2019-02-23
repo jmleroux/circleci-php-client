@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Jmleroux\CircleCi\Query;
+namespace Jmleroux\CircleCi\Api;
 
 use GuzzleHttp\Client;
 use Jmleroux\CircleCi\Model\Job;
-use Psr\Http\Message\ResponseInterface;
 
-class BranchLastBuild
+class BranchBuilds
 {
     /** @var string */
     private $token;
@@ -28,9 +27,9 @@ class BranchLastBuild
     }
 
     /**
-     * @return Job
+     * @return Job[]
      */
-    public function execute(string $branch): ?Job
+    public function execute(string $branch): array
     {
         $client = new Client(['base_uri' => 'https://circleci.com/api/v1.1/']);
         $uri = sprintf(
@@ -46,20 +45,13 @@ class BranchLastBuild
             'headers' => ['Accept' => 'application/json'],
         ]);
 
-        $builds = $this->parseResponse($response);
-        if (null === $builds || 0 === count($builds)) {
-            return null;
+        $builds = json_decode((string)$response->getBody(), true);
+
+        $results = [];
+        foreach ($builds as $build) {
+            $results[] = Job::createFromNormalized($build);
         }
 
-        return Job::createFromNormalized($builds[0]);
-    }
-
-    private function parseResponse(ResponseInterface $response): ?array
-    {
-        if (200 !== $response->getStatusCode()) {
-            return null;
-        }
-
-        return json_decode((string)$response->getBody(), true);
+        return $results;
     }
 }
