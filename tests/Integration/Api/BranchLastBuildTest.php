@@ -20,7 +20,6 @@ class BranchLastBuildTest extends TestCase
 
     public function testQueryOk()
     {
-
         $query = new BranchLastBuild($this->client);
 
         $build = $query->execute('github', 'jmleroux', 'circleci-php-client', 'master');
