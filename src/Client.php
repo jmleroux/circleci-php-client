@@ -30,4 +30,15 @@ class Client
             'headers' => ['Accept' => 'application/json'],
         ]);
     }
+
+    public function delete(string $uri, array $params = []): ResponseInterface
+    {
+        $params[] = sprintf('circle-token=%s', $this->token);
+        $queryString = implode('&', $params);
+        $uri .= sprintf('?%s', $queryString);
+
+        return $this->client->delete($uri, [
+            'headers' => ['Accept' => 'application/json'],
+        ]);
+    }
 }
