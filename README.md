@@ -30,10 +30,6 @@ docker-compose exec fpm ./doc/examples/last_build.php
 ```
 
 ```php
-<?php
-
-declare(strict_types=1);
-
 use Jmleroux\CircleCi\Api\BranchLastBuild;
 use Jmleroux\CircleCi\Client;
 
