@@ -6,6 +6,9 @@ namespace Jmleroux\CircleCi\Api;
 
 use Jmleroux\CircleCi\Client;
 
+/**
+ * @author jmleroux <jmleroux.pro@gmail.com>
+ */
 class SingleBuild
 {
     /** @var Client */

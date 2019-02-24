@@ -6,6 +6,11 @@ namespace Jmleroux\CircleCi\Api;
 
 use Jmleroux\CircleCi\Client;
 
+/**
+ * Clear project build cache.
+ *
+ * @author jmleroux <jmleroux.pro@gmail.com>
+ */
 class ClearProjectCache
 {
     /** @var Client */
