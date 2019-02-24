@@ -1,3 +1,4 @@
 /vendor/
 docker-compose.override.yml
 .php_cs.cache
+.env.local
