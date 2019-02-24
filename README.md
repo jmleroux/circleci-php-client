@@ -31,7 +31,7 @@ docker-compose exec fpm ./doc/examples/last_build.php
 
 Output:
 
-```php
+```
 class stdClass#34 (57) {
   public $compare =>
   NULL
