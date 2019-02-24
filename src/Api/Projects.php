@@ -7,9 +7,14 @@ namespace Jmleroux\CircleCi\Api;
 use Jmleroux\CircleCi\Client;
 
 /**
+ * Return all followed projects of the calling user.
+ * This API needs a personnal access token
+ *
+ * @see    https://circleci.com/docs/api/#authentication
+ *
  * @author jmleroux <jmleroux.pro@gmail.com>
  */
-class BuildSummary
+class Projects
 {
     /** @var Client */
     private $client;
@@ -19,15 +24,11 @@ class BuildSummary
         $this->client = $client;
     }
 
-    public function execute(
-        string $vcsType,
-        string $username,
-        string $reponame,
-        array $queryParameters = []
-    ): array {
-        $uri = sprintf('project/%s/%s/%s', $vcsType, $username, $reponame);
+    public function execute(): array
+    {
+        $uri = 'projects';
 
-        $response = $this->client->get($uri, $queryParameters);
+        $response = $this->client->get($uri);
 
         return json_decode((string)$response->getBody());
     }
