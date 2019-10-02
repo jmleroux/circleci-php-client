@@ -1,0 +1,10 @@
+{
+    "stopped_at": "2019-10-02T03:04:32Z",
+    "name": "nightly",
+    "project_slug": "gh/foo/bar",
+    "pipeline_number": null,
+    "status": "success",
+    "id": "e5a7a0f0-5ab3-5ab3-9157-dfa7a7afb743",
+    "created_at": "2019-10-02T02:03:01Z",
+    "pipeline_id": null
+}

@@ -14,9 +14,10 @@ class Client
     /** @var string */
     private $token;
 
-    public function __construct(string $token)
+    public function __construct(string $token, ?string $version = 'v1.1')
     {
-        $this->client = new HttpClient(['base_uri' => 'https://circleci.com/api/v1.1/']);
+        $baseUri = sprintf('https://circleci.com/api/%s/', $version);
+        $this->client = new HttpClient(['base_uri' => $baseUri]);
         $this->token = $token;
     }
 
