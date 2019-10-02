@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jmleroux\CircleCi\Tests\Unit\Api;
 
-use Jmleroux\CircleCi\Api\SingleBuild;
 use Jmleroux\CircleCi\Api\SingleWorkflow;
 use Jmleroux\CircleCi\Client;
 use PHPUnit\Framework\TestCase;
