@@ -7,6 +7,8 @@ namespace Jmleroux\CircleCi\Api\V2\Workflow;
 use Jmleroux\CircleCi\Client;
 
 /**
+ * Get a workflow by id
+ *
  * @author jmleroux <jmleroux.pro@gmail.com>
  */
 class SingleWorkflow

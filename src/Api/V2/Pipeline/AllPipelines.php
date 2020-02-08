@@ -7,6 +7,8 @@ namespace Jmleroux\CircleCi\Api\V2\Pipeline;
 use Jmleroux\CircleCi\Client;
 
 /**
+ * Retriece pipelines of a project, otpionaly filtered by branch.
+ *
  * @author jmleroux <jmleroux.pro@gmail.com>
  */
 class AllPipelines

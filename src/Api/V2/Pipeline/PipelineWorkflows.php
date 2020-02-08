@@ -7,6 +7,8 @@ namespace Jmleroux\CircleCi\Api\V2\Pipeline;
 use Jmleroux\CircleCi\Client;
 
 /**
+ * Get the workflows of a pipeline.
+ *
  * @author jmleroux <jmleroux.pro@gmail.com>
  */
 class PipelineWorkflows
