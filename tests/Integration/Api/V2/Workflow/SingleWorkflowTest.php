@@ -8,6 +8,8 @@ use Jmleroux\CircleCi\Api\V2\Pipeline\AllPipelines;
 use Jmleroux\CircleCi\Api\V2\Pipeline\PipelineWorkflows;
 use Jmleroux\CircleCi\Api\V2\Workflow\SingleWorkflow;
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\Model\Workflow;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
 class SingleWorkflowTest extends TestCase
@@ -23,16 +25,24 @@ class SingleWorkflowTest extends TestCase
     public function testQuery()
     {
         $query = new AllPipelines($this->client);
-        $result = $query->execute('gh/jmleroux/circleci-php-client', 'master');
-        $pipeline = $result->items[0];
+        $workflow = $query->execute('gh/jmleroux/circleci-php-client', 'master');
+        $pipeline = $workflow->items[0];
 
         $query = new PipelineWorkflows($this->client);
-        $result = $query->execute($pipeline->id);
-        $workflow = $result->items[0];
+        $workflow = $query->execute($pipeline->id);
+        $workflow = $workflow->items[0];
 
         $query = new SingleWorkflow($this->client);
-        $result = $query->execute($workflow->id);
+        $workflow = $query->execute($workflow->id);
 
-        $this->assertInstanceOf(\stdClass::class, $result);
+        Assert::assertInstanceOf(Workflow::class, $workflow);
+        Assert::assertRegExp('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/', $workflow->id());
+        Assert::assertEquals('build_test', $workflow->name());
+        Assert::assertTrue(in_array($workflow->status(), ['success']));
+        Assert::assertInstanceOf(\DateTimeInterface::class, $workflow->createdAt());
+        Assert::assertInstanceOf(\DateTimeInterface::class, $workflow->stoppedAt());
+        Assert::assertRegExp('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/', $workflow->pipelineId());
+        Assert::assertIsNumeric($workflow->pipelineNumber());
+        Assert::assertEquals('gh/jmleroux/circleci-php-client', $workflow->projectSlug());
     }
 }
