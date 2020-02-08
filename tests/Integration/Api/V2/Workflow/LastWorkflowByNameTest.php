@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Jmleroux\CircleCi\Tests\Integration\Api\V2\Workflow;
 
-use Jmleroux\CircleCi\Api\V2\Pipeline\AllPipelines;
-use Jmleroux\CircleCi\Api\V2\Pipeline\PipelineWorkflows;
 use Jmleroux\CircleCi\Api\V2\Workflow\LastWorkflowByName;
-use Jmleroux\CircleCi\Api\V2\Workflow\SingleWorkflow;
 use Jmleroux\CircleCi\Client;
 use PHPUnit\Framework\TestCase;
 
