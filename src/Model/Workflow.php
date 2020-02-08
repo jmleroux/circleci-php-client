@@ -53,8 +53,12 @@ class Workflow
         return new DateTimeImmutable($this->rawObject->created_at);
     }
 
-    public function stoppedAt(): DateTimeImmutable
+    public function stoppedAt(): ?DateTimeImmutable
     {
+        if (null === $this->rawObject->stopped_at) {
+            return null;
+        }
+
         return new DateTimeImmutable($this->rawObject->stopped_at);
     }
 
