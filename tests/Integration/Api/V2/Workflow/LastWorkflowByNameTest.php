@@ -26,11 +26,14 @@ class LastWorkflowByNameTest extends TestCase
         $query = new LastWorkflowByName($this->client);
 
         $workflow = $query->execute('gh/jmleroux/circleci-php-client', 'build_test', null);
-var_dump($workflow);
+
         Assert::assertInstanceOf(Workflow::class, $workflow);
         Assert::assertRegExp('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/', $workflow->id());
         Assert::assertEquals('build_test', $workflow->name());
-        Assert::assertTrue(in_array($workflow->status(), ['success', 'failed'], true));
+        Assert::assertTrue(
+            in_array($workflow->status(), ['success', 'failed'], true),
+            sprintf('Status %s is unknown', $workflow->status())
+        );
         Assert::assertInstanceOf(DateTimeInterface::class, $workflow->createdAt());
         Assert::assertInstanceOf(DateTimeInterface::class, $workflow->stoppedAt());
         Assert::assertRegExp('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/', $workflow->pipelineId());
