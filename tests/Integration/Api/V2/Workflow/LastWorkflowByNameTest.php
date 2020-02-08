@@ -31,7 +31,7 @@ class LastWorkflowByNameTest extends TestCase
         Assert::assertRegExp('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/', $workflow->id());
         Assert::assertEquals('build_test', $workflow->name());
         Assert::assertTrue(
-            in_array($workflow->status(), ['success', 'failed'], true),
+            in_array($workflow->status(), ['success', 'failed', 'running'], true),
             sprintf('Status %s is unknown', $workflow->status())
         );
         Assert::assertInstanceOf(DateTimeInterface::class, $workflow->createdAt());
