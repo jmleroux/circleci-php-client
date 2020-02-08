@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jmleroux\CircleCi;
 
 use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\ResponseInterface;
 
 class Client
@@ -21,22 +22,20 @@ class Client
         $this->token = $token;
     }
 
-    public function get(string $uri, array $params = []): ResponseInterface
+    public function get(string $url, array $params = []): ResponseInterface
     {
-        $params[] = sprintf('circle-token=%s', $this->token);
-        $queryString = implode('&', $params);
-        $uri .= sprintf('?%s', $queryString);
+        $params['circle-token'] = $this->token;
+        $uri = Uri::withQueryValues(new Uri($url), $params);
 
         return $this->client->get($uri, [
             'headers' => ['Accept' => 'application/json'],
         ]);
     }
 
-    public function delete(string $uri, array $params = []): ResponseInterface
+    public function delete(string $url, array $params = []): ResponseInterface
     {
-        $params[] = sprintf('circle-token=%s', $this->token);
-        $queryString = implode('&', $params);
-        $uri .= sprintf('?%s', $queryString);
+        $params['circle-token'] = $this->token;
+        $uri = Uri::withQueryValues(new Uri($url), $params);
 
         return $this->client->delete($uri, [
             'headers' => ['Accept' => 'application/json'],

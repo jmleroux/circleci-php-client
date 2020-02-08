@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Jmleroux\CircleCi\Api;
+namespace Jmleroux\CircleCi\Api\V2\Pipeline;
 
 use Jmleroux\CircleCi\Client;
 
 /**
+ * Get the workflows of a pipeline.
+ *
  * @author jmleroux <jmleroux.pro@gmail.com>
  */
-class SingleWorkflow
+class PipelineWorkflows
 {
     /** @var Client */
     private $client;
@@ -19,12 +21,12 @@ class SingleWorkflow
         $this->client = $client;
     }
 
-    public function execute(string $workflowId): ?\stdClass
+    public function execute(string $pipelineId): ?\stdClass
     {
-        $uri = sprintf('workflow/%s', $workflowId);
+        $uri = sprintf('pipeline/%s/workflow', $pipelineId);
 
         $response = $this->client->get($uri);
 
-        return json_decode((string) $response->getBody());
+        return json_decode((string)$response->getBody());
     }
 }
