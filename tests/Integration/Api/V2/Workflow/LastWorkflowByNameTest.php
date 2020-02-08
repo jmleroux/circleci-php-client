@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jmleroux\CircleCi\Tests\Integration\Api\V2\Workflow;
 
+use DateTimeInterface;
 use Jmleroux\CircleCi\Api\V2\Workflow\LastWorkflowByName;
 use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\Workflow;
@@ -29,9 +30,9 @@ class LastWorkflowByNameTest extends TestCase
         Assert::assertInstanceOf(Workflow::class, $workflow);
         Assert::assertRegExp('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/', $workflow->id());
         Assert::assertEquals('build_test', $workflow->name());
-        Assert::assertTrue(in_array($workflow->status(), ['success'], true));
-        Assert::assertInstanceOf(\DateTimeInterface::class, $workflow->createdAt());
-        Assert::assertInstanceOf(\DateTimeInterface::class, $workflow->stoppedAt());
+        Assert::assertTrue(in_array($workflow->status(), ['success', 'failed'], true));
+        Assert::assertInstanceOf(DateTimeInterface::class, $workflow->createdAt());
+        Assert::assertInstanceOf(DateTimeInterface::class, $workflow->stoppedAt());
         Assert::assertRegExp('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/', $workflow->pipelineId());
         Assert::assertIsNumeric($workflow->pipelineNumber());
         Assert::assertEquals('gh/jmleroux/circleci-php-client', $workflow->projectSlug());
