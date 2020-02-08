@@ -35,7 +35,6 @@ class LastWorkflowByNameTest extends TestCase
             sprintf('Status %s is unknown', $workflow->status())
         );
         Assert::assertInstanceOf(DateTimeInterface::class, $workflow->createdAt());
-        Assert::assertInstanceOf(DateTimeInterface::class, $workflow->stoppedAt());
         Assert::assertRegExp('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/', $workflow->pipelineId());
         Assert::assertIsNumeric($workflow->pipelineNumber());
         Assert::assertEquals('gh/jmleroux/circleci-php-client', $workflow->projectSlug());
