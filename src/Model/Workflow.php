@@ -30,7 +30,7 @@ class Workflow
 
     public function rawValues(): \stdClass
     {
-        return $this->rawValues();
+        return $this->rawObject;
     }
 
     public function id(): string
