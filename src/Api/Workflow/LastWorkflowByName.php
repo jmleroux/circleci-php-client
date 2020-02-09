@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Jmleroux\CircleCi\Api\V2\Workflow;
+namespace Jmleroux\CircleCi\Api\Workflow;
 
-use Jmleroux\CircleCi\Api\V2\Pipeline\AllPipelines;
-use Jmleroux\CircleCi\Api\V2\Pipeline\PipelineWorkflows;
+use Jmleroux\CircleCi\Api\Pipeline\AllPipelines;
+use Jmleroux\CircleCi\Api\Pipeline\PipelineWorkflows;
 use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\Workflow;
 

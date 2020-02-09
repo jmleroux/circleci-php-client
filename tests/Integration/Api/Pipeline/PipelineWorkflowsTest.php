@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Jmleroux\CircleCi\Tests\Integration\Api\V2\Pipeline;
+namespace Jmleroux\CircleCi\Tests\Integration\Api\Pipeline;
 
-use Jmleroux\CircleCi\Api\V2\Pipeline\AllPipelines;
-use Jmleroux\CircleCi\Api\V2\Pipeline\PipelineWorkflows;
+use Jmleroux\CircleCi\Api\Pipeline\AllPipelines;
+use Jmleroux\CircleCi\Api\Pipeline\PipelineWorkflows;
 use Jmleroux\CircleCi\Client;
 use PHPUnit\Framework\TestCase;
 

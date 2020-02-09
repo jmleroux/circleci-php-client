@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Jmleroux\CircleCi\Tests\Integration\Api\V2\Workflow;
+namespace Jmleroux\CircleCi\Tests\Integration\Api\Workflow;
 
 use DateTimeInterface;
-use Jmleroux\CircleCi\Api\V2\Workflow\LastWorkflowByName;
+use Jmleroux\CircleCi\Api\Workflow\LastWorkflowByName;
 use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\Workflow;
 use PHPUnit\Framework\Assert;

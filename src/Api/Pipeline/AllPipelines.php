@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jmleroux\CircleCi\Api\V2\Pipeline;
+namespace Jmleroux\CircleCi\Api\Pipeline;
 
 use Jmleroux\CircleCi\Client;
 
