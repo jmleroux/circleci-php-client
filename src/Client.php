@@ -32,6 +32,16 @@ class Client
         ]);
     }
 
+    public function post(string $url, array $params = []): ResponseInterface
+    {
+        $params['circle-token'] = $this->token;
+        $uri = Uri::withQueryValues(new Uri($url), $params);
+
+        return $this->client->post($uri, [
+            'headers' => ['Accept' => 'application/json'],
+        ]);
+    }
+
     public function delete(string $url, array $params = []): ResponseInterface
     {
         $params['circle-token'] = $this->token;
