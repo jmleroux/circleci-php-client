@@ -15,7 +15,8 @@ class AllPipelinesTest extends TestCase
 
     public function setUp(): void
     {
-        $this->client = new Client('c12be1379ca68b91d314ff3b44de7b7555b3c652', 'v2');
+        $PERSONALToken = getenv('CIRCLECI_PERSONAL_TOKEN');
+        $this->client = new Client($PERSONALToken, 'v2');
     }
 
     public function testQuery()

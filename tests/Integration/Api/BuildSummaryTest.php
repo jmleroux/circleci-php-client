@@ -15,7 +15,8 @@ class BuildSummaryTest extends TestCase
 
     public function setUp(): void
     {
-        $this->client = new Client('c900a267b73d8fbcab665fedc818c8de2b6aedf1');
+        $PERSONALToken = getenv('CIRCLECI_PERSONAL_TOKEN');
+        $this->client = new Client($PERSONALToken);
     }
 
     public function testQueryOk()

@@ -15,8 +15,8 @@ class ProjectsTest extends TestCase
 
     public function setUp(): void
     {
-        $personnalToken = getenv('CIRCLECI_PERSONNAL_TOKEN');
-        $this->client = new Client($personnalToken);
+        $PERSONALToken = getenv('CIRCLECI_PERSONAL_TOKEN');
+        $this->client = new Client($PERSONALToken);
     }
 
     public function testQueryOk()
