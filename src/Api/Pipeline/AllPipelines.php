@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Jmleroux\CircleCi\Api\Pipeline;
 
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\Model\Pipeline;
 
 /**
- * Retriece pipelines of a project, otpionaly filtered by branch.
+ * Retrieve pipelines of a project, optionally filtered by branch.
  *
  * @author jmleroux <jmleroux.pro@gmail.com>
  */
@@ -21,8 +22,10 @@ class AllPipelines
         $this->client = $client;
     }
 
-    public function execute(string $projectSlug, ?string $branch): ?\stdClass
+    public function execute(string $projectSlug, ?string $branch): array
     {
+        $pipelines = [];
+
         $uri = sprintf('project/%s/pipeline', $projectSlug);
 
         $params = [];
@@ -30,8 +33,14 @@ class AllPipelines
             $params['branch'] = $branch;
         }
 
-        $response = $this->client->get($uri, $params);
+        $rawResponse = $this->client->get($uri, $params);
 
-        return json_decode((string)$response->getBody());
+        $response = json_decode((string)$response->getBody());
+
+        foreach ($response->items as $item) {
+            $pipelines[] = Pipeline::createFromApi($item);
+        }
+
+        return $pipelines;
     }
 }
