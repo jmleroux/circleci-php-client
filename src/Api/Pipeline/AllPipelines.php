@@ -22,24 +22,34 @@ class AllPipelines
         $this->client = $client;
     }
 
-    public function execute(string $projectSlug, ?string $branch): array
+    public function execute(string $projectSlug, ?int $maxPipelineCount, ?string $branch): array
     {
         $pipelines = [];
 
         $uri = sprintf('project/%s/pipeline', $projectSlug);
-
         $params = [];
         if (null !== $branch) {
             $params['branch'] = $branch;
         }
 
-        $rawResponse = $this->client->get($uri, $params);
+        $nextPageToken = null;
+        $smallestPipelineNumber = PHP_INT_MAX;
+        do {
+            if (null !== $nextPageToken) {
+                $params['page-token'] = $nextPageToken;
+                unset($params['branch']);
+            }
 
-        $response = json_decode((string)$response->getBody());
+            $response = json_decode((string) $this->client->get($uri, $params)->getBody());
+            $nextPageToken = $response->next_page_token;
 
-        foreach ($response->items as $item) {
-            $pipelines[] = Pipeline::createFromApi($item);
-        }
+            foreach($response->items as $item) {
+                $pipeline = Pipeline::createFromApi($item);
+                $lastPipelineNumber = $pipeline->number();
+                $smallestPipelineNumber = min($lastPipelineNumber, $smallestPipelineNumber);
+                $pipelines[] = Pipeline::createFromApi($item);
+            }
+        } while (null !== $nextPageToken && $lastPipelineNumber === $smallestPipelineNumber && count($pipelines) < $maxPipelineCount);
 
         return $pipelines;
     }
