@@ -1,32 +1,29 @@
 ### Docker
 
-Run docker development environment:
-
-```bash
-docker-compose up -d
-```
-
 Install the library:
 
 ```bash
-docker-compose exec fpm composer install --prefer-dist
+make vendor
 ```
 
 Run tests:
 
 ```bash
-docker-compose exec fpm ./vendor/bin/php-cs-fixer  fix  --config=.php_cs.php --diff --dry-run -v
-docker-compose exec fpm ./vendor/bin/phpunit
+make tests
 ```
 
-You can run all this command in one line with the provided `bin/setup.sh` script.
+Run coverage:
+
+```bash
+make coverage
+```
 
 #### Usage
 
 Run the example script:
 
 ```bash
-docker-compose exec fpm ./doc/examples/last_build.php
+docker-compose run --rm fpm ./doc/examples/last_build.php
 ```
 
 ```php

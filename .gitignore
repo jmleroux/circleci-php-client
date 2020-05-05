@@ -1,4 +1,6 @@
-/vendor/
+vendor/
+.env.local
 docker-compose.override.yml
 .php_cs.cache
-.env.local
+.phpunit.result.cache
+coverage/

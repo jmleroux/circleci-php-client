@@ -15,8 +15,8 @@ class BranchBuildsTest extends TestCase
 
     public function setUp(): void
     {
-        $PERSONALToken = getenv('CIRCLECI_PERSONAL_TOKEN');
-        $this->client = new Client($PERSONALToken);
+        $PersonalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
+        $this->client = new Client($PersonalToken);
     }
 
     public function testQueryOk()
