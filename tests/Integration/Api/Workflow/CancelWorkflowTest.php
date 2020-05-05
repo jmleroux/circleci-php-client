@@ -4,15 +4,9 @@ declare(strict_types=1);
 
 namespace Jmleroux\CircleCi\Tests\Integration\Api\Workflow;
 
-use DateTimeInterface;
 use GuzzleHttp\Exception\RequestException;
-use Jmleroux\CircleCi\Api\Pipeline\AllPipelines;
-use Jmleroux\CircleCi\Api\Pipeline\PipelineWorkflows;
 use Jmleroux\CircleCi\Api\Workflow\CancelWorkflow;
-use Jmleroux\CircleCi\Api\Workflow\SingleWorkflow;
 use Jmleroux\CircleCi\Client;
-use Jmleroux\CircleCi\Model\Workflow;
-use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
 class CancelWorkflowTest extends TestCase
@@ -22,7 +16,7 @@ class CancelWorkflowTest extends TestCase
 
     public function setUp(): void
     {
-        $PERSONALToken = getenv('CIRCLECI_PERSONAL_TOKEN');
+        $PERSONALToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
         $this->client = new Client($PERSONALToken, 'v2');
     }
 

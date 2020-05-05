@@ -20,7 +20,7 @@ class SingleWorkflowTest extends TestCase
 
     public function setUp(): void
     {
-        $PERSONALToken = getenv('CIRCLECI_PERSONAL_TOKEN');
+        $PERSONALToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
         $this->client = new Client($PERSONALToken, 'v2');
     }
 
