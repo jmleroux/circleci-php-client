@@ -12,6 +12,12 @@ Run tests:
 make tests
 ```
 
+Run coverage:
+
+```bash
+make coverage
+```
+
 #### Usage
 
 Run the example script:
