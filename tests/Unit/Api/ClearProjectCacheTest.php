@@ -26,6 +26,8 @@ class ClearProjectCacheTest extends TestCase
         $client->method('delete')
             ->with('project/github/my_username/my_reponame/build-cache')
             ->willReturn($response);
+        $client->method('getVersion')
+            ->willReturn('v1.1');
 
         $query = new ClearProjectCache($client);
 

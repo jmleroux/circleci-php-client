@@ -26,6 +26,8 @@ class ProjectsTest extends TestCase
         $client->method('get')
             ->with('projects')
             ->willReturn($response);
+        $client->method('getVersion')
+            ->willReturn('v1.1');
 
         $query = new Projects($client);
 
