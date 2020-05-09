@@ -1,6 +1,7 @@
 vendor/
 .env.local
 docker-compose.override.yml
+.phpunit.result.cache
 .php_cs.cache
 .phpunit.result.cache
 coverage/

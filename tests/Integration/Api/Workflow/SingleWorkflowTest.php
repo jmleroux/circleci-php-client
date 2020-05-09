@@ -27,15 +27,15 @@ class SingleWorkflowTest extends TestCase
     public function testQuery()
     {
         $query = new AllPipelines($this->client);
-        $workflow = $query->execute('gh/jmleroux/circleci-php-client', 'master');
-        $pipeline = $workflow->items[0];
+        $pipelines = $query->execute('gh/jmleroux/circleci-php-client', null, 'master');
+        $pipeline = $pipelines[0];
 
         $query = new PipelineWorkflows($this->client);
-        $workflow = $query->execute($pipeline->id);
-        $workflow = $workflow->items[0];
+        $workflows = $query->execute($pipeline->id());
+        $workflow = $workflows[0];
 
         $query = new SingleWorkflow($this->client);
-        $workflow = $query->execute($workflow->id);
+        $workflow = $query->execute($workflow->id());
 
         Assert::assertInstanceOf(Workflow::class, $workflow);
         Assert::assertRegExp('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/', $workflow->id());
