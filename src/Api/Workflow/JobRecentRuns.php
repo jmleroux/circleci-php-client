@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jmleroux\CircleCi\Api\Workflow;
 
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\Model\JobRun;
 use Jmleroux\CircleCi\ValidateClientVersionTrait;
 
 /**
@@ -26,15 +27,25 @@ class JobRecentRuns
         $this->client = $client;
     }
 
+    /**
+     * @return JobRun[]
+     */
     public function execute(
         string $projectSlug,
         string $workflowName,
         string $jobName,
         array $queryParameters = []
-    ): ?\stdClass {
+    ): array {
+        $jobRuns = [];
+
         $uri = sprintf('insights/%s/workflows/%s/jobs/%s', $projectSlug, $workflowName, $jobName);
         $response = $this->client->get($uri, $queryParameters);
+        $responseContent = json_decode((string) $response->getBody());
 
-        return json_decode((string) $response->getBody());
+        foreach ($responseContent->items as $item) {
+            $jobRuns[] = JobRun::createFromApi($item);
+        }
+
+        return $jobRuns;
     }
 }

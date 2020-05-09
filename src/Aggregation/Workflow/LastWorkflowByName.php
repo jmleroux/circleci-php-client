@@ -36,10 +36,10 @@ class LastWorkflowByName
             null !== $branch ? ['branch' => $branch] : []
         );
 
-        if (0 === count($recentRuns->items)) {
+        if (0 === count($recentRuns)) {
             return null;
         }
 
-        return (new SingleWorkflow($this->client))->execute($recentRuns->items[0]->id);
+        return (new SingleWorkflow($this->client))->execute($recentRuns[0]->id());
     }
 }

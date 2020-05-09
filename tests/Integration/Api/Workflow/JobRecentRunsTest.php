@@ -6,7 +6,7 @@ namespace Jmleroux\CircleCi\Tests\Integration\Api\Workflow;
 
 use Jmleroux\CircleCi\Api\Workflow\JobRecentRuns;
 use Jmleroux\CircleCi\Client;
-use PHPUnit\Framework\Assert;
+use Jmleroux\CircleCi\Model\JobRun;
 use PHPUnit\Framework\TestCase;
 
 class JobRecentRunsTest extends TestCase
@@ -24,16 +24,19 @@ class JobRecentRunsTest extends TestCase
     {
         $query = new JobRecentRuns($this->client);
 
-        $result = $query->execute('gh/jmleroux/circleci-php-client', 'build_test', 'tests');
+        $recentRuns = $query->execute('gh/jmleroux/circleci-php-client', 'build_test', 'tests');
 
-        $this->assertInstanceOf(\stdClass::class, $result);
-        Assert::assertIsArray($result->items);
+        $this->assertIsArray($recentRuns);
+        $this->assertInstanceOf(JobRun::class, $recentRuns[0]);
+        $this->assertIsString($recentRuns[0]->id());
+        $this->assertIsString($recentRuns[0]->status());
+        $this->assertIsInt($recentRuns[0]->duration());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $recentRuns[0]->startedAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $recentRuns[0]->stoppedAt());
 
-        $result = $query->execute('gh/jmleroux/circleci-php-client', 'build_test', 'unknown_job');
-        $expected = new \stdClass();
-        $expected->next_page_token = null;
-        $expected->items = [];
+        $recentRuns = $query->execute('gh/jmleroux/circleci-php-client', 'build_test', 'unknown_job');
 
-        Assert::assertEquals($expected, $result);
+        $this->assertIsArray($recentRuns);
+        $this->assertEmpty($recentRuns);
     }
 }
