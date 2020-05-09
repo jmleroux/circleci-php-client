@@ -8,19 +8,25 @@ use Jmleroux\CircleCi\Api\Pipeline\AllPipelines;
 use Jmleroux\CircleCi\Api\Pipeline\PipelineWorkflows;
 use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\Workflow;
+use Jmleroux\CircleCi\ValidateClientVersionTrait;
 
 /**
  * Find last execution of a workflow by its name and optionaly by branch
  *
  * @author jmleroux <jmleroux.pro@gmail.com>
+ *
+ * @deprecated You should use Jmleroux\CircleCi\Aggregation\Workflow\LastWorkflowByName
  */
 class LastWorkflowByName
 {
+    use ValidateClientVersionTrait;
+
     /** @var Client */
     private $client;
 
     public function __construct(Client $client)
     {
+        $this->validateClientVersion($client, ['v2']);
         $this->client = $client;
     }
 

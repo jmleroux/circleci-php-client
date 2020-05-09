@@ -22,6 +22,14 @@ class Client
         $this->token = $token;
     }
 
+    public function getVersion(): string
+    {
+        $baseUri = (string)$this->client->getConfig('base_uri');
+        preg_match('#circleci.com/api/(v[\d\.]+)/#', $baseUri, $result);
+
+        return $result[1];
+    }
+
     public function get(string $url, array $params = []): ResponseInterface
     {
         $params['circle-token'] = $this->token;
