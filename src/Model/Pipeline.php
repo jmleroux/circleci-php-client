@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Jmleroux\CircleCi\Model;
 
 use DateTimeImmutable;
+use Jmleroux\CircleCi\Model\Pipeline\Error;
+use Jmleroux\CircleCi\Model\Pipeline\Trigger;
 
 /**
  * @author Benoit Jacquemont <benoit@akeneo.com>
@@ -91,5 +93,10 @@ class Pipeline
     public function pipelineNumber(): int
     {
         return $this->rawObject->pipeline_number;
+    }
+
+    public function vcs(): \stdClass
+    {
+        return $this->rawObject->vcs;
     }
 }

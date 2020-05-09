@@ -22,6 +22,9 @@ class AllPipelines
         $this->client = $client;
     }
 
+    /**
+     * @return Pipeline[]
+     */
     public function execute(string $projectSlug, ?int $maxPipelineCount, ?string $branch): array
     {
         $pipelines = [];

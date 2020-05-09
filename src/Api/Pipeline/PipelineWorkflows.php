@@ -22,6 +22,9 @@ class PipelineWorkflows
         $this->client = $client;
     }
 
+    /**
+     * @return Workflow[]
+     */
     public function execute(string $pipelineId): array
     {
         $workflows = [];
