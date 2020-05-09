@@ -5,19 +5,24 @@ declare(strict_types=1);
 namespace Jmleroux\CircleCi\Api\Pipeline;
 
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\ValidateClientVersionTrait;
 
 /**
  * Get the workflows of a pipeline.
  *
  * @author jmleroux <jmleroux.pro@gmail.com>
+ * @link https://circleci.com/docs/api/v2/#get-a-pipeline-39-s-workflows
  */
 class PipelineWorkflows
 {
+    use ValidateClientVersionTrait;
+
     /** @var Client */
     private $client;
 
     public function __construct(Client $client)
     {
+        $this->validateClientVersion($client, ['v2']);
         $this->client = $client;
     }
 
