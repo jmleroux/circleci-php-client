@@ -6,7 +6,7 @@ namespace Jmleroux\CircleCi\Tests\Integration\Api\Workflow;
 
 use Jmleroux\CircleCi\Api\Workflow\WorkflowRecentRuns;
 use Jmleroux\CircleCi\Client;
-use PHPUnit\Framework\Assert;
+use Jmleroux\CircleCi\Model\WorkflowRun;
 use PHPUnit\Framework\TestCase;
 
 class WorkflowRecentRunsTest extends TestCase
@@ -24,16 +24,19 @@ class WorkflowRecentRunsTest extends TestCase
     {
         $query = new WorkflowRecentRuns($this->client);
 
-        $result = $query->execute('gh/jmleroux/circleci-php-client', 'build_test', ['branch' => 'master']);
+        $workflowRuns = $query->execute('gh/jmleroux/circleci-php-client', 'build_test', ['branch' => 'master']);
 
-        $this->assertInstanceOf(\stdClass::class, $result);
-        Assert::assertIsArray($result->items);
+        $this->assertIsArray($workflowRuns);
+        $this->assertInstanceOf(WorkflowRun::class, $workflowRuns[0]);
+        $this->assertIsString($workflowRuns[0]->id());
+        $this->assertIsString($workflowRuns[0]->status());
+        $this->assertIsInt($workflowRuns[0]->duration());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $workflowRuns[0]->createdAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $workflowRuns[0]->stoppedAt());
 
-        $result = $query->execute('gh/jmleroux/circleci-php-client', 'unknown_workflow');
-        $expected = new \stdClass();
-        $expected->next_page_token = null;
-        $expected->items = [];
+        $workflowRuns = $query->execute('gh/jmleroux/circleci-php-client', 'unknown_workflow');
 
-        Assert::assertEquals($expected, $result);
+        $this->assertIsArray($workflowRuns);
+        $this->assertEmpty($workflowRuns);
     }
 }

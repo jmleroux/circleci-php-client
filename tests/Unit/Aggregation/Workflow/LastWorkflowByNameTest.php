@@ -14,7 +14,7 @@ class LastWorkflowByNameTest extends TestCase
 {
     public function testExecute()
     {
-        $recentsRuns = file_get_contents(__DIR__ . '/../../resources/recents_runs.json');
+        $recentsRuns = file_get_contents(__DIR__ . '/../../resources/workflow_recents_runs.json');
         $recentsRunsResponse = $this->createMock(ResponseInterface::class);
         $recentsRunsResponse->method('getBody')
             ->willReturn($recentsRuns);
