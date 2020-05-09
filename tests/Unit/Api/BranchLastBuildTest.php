@@ -26,6 +26,8 @@ class BranchLastBuildTest extends TestCase
         $client->method('get')
             ->with('project/github/my_username/my_reponame/tree/my_branch')
             ->willReturn($response);
+        $client->method('getVersion')
+            ->willReturn('v1.1');
 
         $query = new BranchLastBuild($client);
 

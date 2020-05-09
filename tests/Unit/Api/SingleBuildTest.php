@@ -26,6 +26,8 @@ class SingleBuildTest extends TestCase
         $client->method('get')
             ->with('project/github/my_username/my_reponame/22')
             ->willReturn($response);
+        $client->method('getVersion')
+            ->willReturn('v1.1');
 
         $query = new SingleBuild($client);
 
