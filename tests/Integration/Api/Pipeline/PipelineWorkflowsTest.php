@@ -32,6 +32,5 @@ class PipelineWorkflowsTest extends TestCase
 
         $this->assertIsArray($workflows);
         $this->assertInstanceOf(Workflow::class, $workflows[0]);
-
     }
 }

@@ -37,7 +37,7 @@ class WorkflowJobs
             $response = json_decode((string) $this->client->get($uri, $params)->getBody());
             $nextPageToken = $response->next_page_token;
 
-            foreach($response->items as $item) {
+            foreach ($response->items as $item) {
                 $jobs[] = Job::createFromApi($item);
             }
         } while (null !== $nextPageToken);
