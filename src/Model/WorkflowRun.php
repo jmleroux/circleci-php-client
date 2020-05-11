@@ -8,8 +8,9 @@ use DateTimeImmutable;
 
 /**
  * @author jmleroux <jmleroux.pro@gmail.com>
+ * @link   https://circleci.com/docs/api/v2/#get-recent-runs-of-a-workflow
  */
-class WorkflowRun
+class WorkflowRun implements ApiResultInterface
 {
     /**
      * Raw object from Circle CI API

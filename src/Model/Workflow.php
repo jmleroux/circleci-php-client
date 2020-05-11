@@ -8,8 +8,9 @@ use DateTimeImmutable;
 
 /**
  * @author jmleroux <jmleroux.pro@gmail.com>
+ * @link https://circleci.com/docs/api/v2/#get-a-workflow
  */
-class Workflow
+class Workflow implements ApiResultInterface
 {
     /**
      * Raw object from Circle CI API

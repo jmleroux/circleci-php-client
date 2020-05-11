@@ -8,8 +8,12 @@ use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\ValidateClientVersionTrait;
 
 /**
+ * Returns the full details for a single job.
+ * The response includes all of the fields from the job summary.
+ *
  * @author jmleroux <jmleroux.pro@gmail.com>
  * @link https://circleci.com/docs/api/#single-job
+ * @deprecated use Jmleroux\CircleCi\Api\Job\SingleBuild
  */
 class SingleBuild
 {
