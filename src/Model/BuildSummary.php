@@ -124,7 +124,7 @@ class BuildSummary implements ApiResultInterface
         return $this->rawObject->lifecycle;
     }
 
-    public function outcome(): string
+    public function outcome(): ?string
     {
         return $this->rawObject->outcome;
     }
