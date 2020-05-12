@@ -43,8 +43,11 @@ class RecentBuildsForProjectTest extends TestCase
         $this->assertInstanceOf(\DateTimeImmutable::class, $firstBuild->startTime());
         if (null !== $firstBuild->stopTime()) {
             $this->assertInstanceOf(\DateTimeImmutable::class, $firstBuild->stopTime());
+            $this->assertIsInt($firstBuild->buildTimeMillis());
+        } else {
+            $this->assertNull($firstBuild->stopTime());
+            $this->assertNull($firstBuild->buildTimeMillis());
         }
-        $this->assertIsInt($firstBuild->buildTimeMillis());
         $this->assertIsString($firstBuild->username());
         $this->assertIsString($firstBuild->reponame());
         $this->assertIsString($firstBuild->lifecycle());
