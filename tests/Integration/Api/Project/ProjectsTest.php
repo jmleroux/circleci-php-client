@@ -9,6 +9,9 @@ use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\Project;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author  JM Leroux <jmleroux.pro@gmail.com>
+ */
 class ProjectsTest extends TestCase
 {
     public static function setUpBeforeClass(): void

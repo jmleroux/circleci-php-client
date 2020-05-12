@@ -8,6 +8,9 @@ use Jmleroux\CircleCi\Api\Project\ClearProjectCache;
 use Jmleroux\CircleCi\Client;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author  JM Leroux <jmleroux.pro@gmail.com>
+ */
 class ClearProjectCacheTest extends TestCase
 {
     public static function setUpBeforeClass(): void
