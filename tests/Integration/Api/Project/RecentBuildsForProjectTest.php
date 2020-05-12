@@ -13,6 +13,11 @@ use PHPUnit\Framework\TestCase;
  */
 class RecentBuildsForProjectTest extends TestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        sleep(1);
+    }
+
     public function testQueryOk()
     {
         $personalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];

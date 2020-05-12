@@ -16,6 +16,11 @@ class LastWorkflowByNameTest extends TestCase
     /** @var Client */
     private $client;
 
+    public static function setUpBeforeClass(): void
+    {
+        sleep(1);
+    }
+
     public function setUp(): void
     {
         $PERSONALToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
