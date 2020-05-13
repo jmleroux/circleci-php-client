@@ -8,8 +8,9 @@ use DateTimeImmutable;
 
 /**
  * @author jmleroux <jmleroux.pro@gmail.com>
+ * @link   https://circleci.com/docs/api/v2/#get-recent-runs-of-a-workflow
  */
-class JobRun
+class JobRun implements ApiResultInterface
 {
     /**
      * Raw object from Circle CI API
@@ -55,10 +56,6 @@ class JobRun
 
     public function stoppedAt(): ?DateTimeImmutable
     {
-        if (null === $this->rawObject->stopped_at) {
-            return null;
-        }
-
-        return new DateTimeImmutable($this->rawObject->stopped_at);
+        return $this->rawObject->stopped_at ? new DateTimeImmutable($this->rawObject->stopped_at) : null;
     }
 }

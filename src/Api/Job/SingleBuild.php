@@ -2,17 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Jmleroux\CircleCi\Api;
+namespace Jmleroux\CircleCi\Api\Job;
 
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\Model\JobDetails;
 use Jmleroux\CircleCi\ValidateClientVersionTrait;
 
 /**
+ * Returns the full details for a single job.
+ * The response includes all of the fields from the job summary.
+ *
  * @author jmleroux <jmleroux.pro@gmail.com>
- * https://circleci.com/docs/api/#recent-builds-for-a-single-project
- * @deprecated use Jmleroux\CircleCi\Api\Project\BuildSummaryForBranch and extract the first result
+ * @link https://circleci.com/docs/api/#single-job
  */
-class BranchLastBuild
+class SingleBuild
 {
     use ValidateClientVersionTrait;
 
@@ -25,20 +28,18 @@ class BranchLastBuild
         $this->client = $client;
     }
 
-    public function execute(string $vcsType, string $username, string $reponame, string $branch): ?\stdClass
+    public function execute(string $vcsType, string $username, string $reponame, int $buildNum): JobDetails
     {
         $uri = sprintf(
-            'project/%s/%s/%s/tree/%s',
+            'project/%s/%s/%s/%s',
             $vcsType,
             $username,
             $reponame,
-            $branch
+            $buildNum
         );
 
         $response = $this->client->get($uri);
 
-        $builds = json_decode((string) $response->getBody());
-
-        return !empty($builds) ? $builds[0] : null;
+        return JobDetails::createFromApi(json_decode((string)$response->getBody()));
     }
 }

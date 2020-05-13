@@ -12,6 +12,7 @@ use Jmleroux\CircleCi\ValidateClientVersionTrait;
  *
  * @author jmleroux <jmleroux.pro@gmail.com>
  * @link https://circleci.com/docs/api/#clear-project-cache
+ * @deprecated use Jmleroux\CircleCi\Api\Project\ClearProjectCache
  */
 class ClearProjectCache
 {

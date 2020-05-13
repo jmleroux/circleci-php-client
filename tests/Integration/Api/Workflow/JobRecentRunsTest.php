@@ -14,6 +14,11 @@ class JobRecentRunsTest extends TestCase
     /** @var Client */
     private $client;
 
+    public static function setUpBeforeClass(): void
+    {
+        sleep(1);
+    }
+
     public function setUp(): void
     {
         $PERSONALToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
@@ -25,14 +30,16 @@ class JobRecentRunsTest extends TestCase
         $query = new JobRecentRuns($this->client);
 
         $recentRuns = $query->execute('gh/jmleroux/circleci-php-client', 'build_test', 'tests');
-
         $this->assertIsArray($recentRuns);
-        $this->assertInstanceOf(JobRun::class, $recentRuns[0]);
-        $this->assertIsString($recentRuns[0]->id());
-        $this->assertIsString($recentRuns[0]->status());
-        $this->assertIsInt($recentRuns[0]->duration());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $recentRuns[0]->startedAt());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $recentRuns[0]->stoppedAt());
+
+        $firstRun = $recentRuns[0];
+        $this->assertInstanceOf(JobRun::class, $firstRun);
+        $this->assertIsObject($firstRun->rawValues());
+        $this->assertIsString($firstRun->id());
+        $this->assertIsString($firstRun->status());
+        $this->assertIsInt($firstRun->duration());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $firstRun->startedAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $firstRun->stoppedAt());
 
         $recentRuns = $query->execute('gh/jmleroux/circleci-php-client', 'build_test', 'unknown_job');
 

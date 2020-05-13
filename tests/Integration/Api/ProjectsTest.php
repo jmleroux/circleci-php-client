@@ -8,6 +8,9 @@ use Jmleroux\CircleCi\Api\Projects;
 use Jmleroux\CircleCi\Client;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author  JM Leroux <jmleroux.pro@gmail.com>
+ */
 class ProjectsTest extends TestCase
 {
     /** @var Client */

@@ -2,19 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Jmleroux\CircleCi\Api;
+namespace Jmleroux\CircleCi\Api\Project;
 
 use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\ValidateClientVersionTrait;
 
 /**
- * Recent Builds For A Single Project
+ * Clear project build cache.
  *
  * @author jmleroux <jmleroux.pro@gmail.com>
- * @link https://circleci.com/docs/api/#recent-builds-for-a-single-project
- * @deprecated use Jmleroux\CircleCi\Api\Project\RecentBuildsForProject
+ * @link https://circleci.com/docs/api/#clear-project-cache
  */
-class BuildSummary
+class ClearProjectCache
 {
     use ValidateClientVersionTrait;
 
@@ -32,11 +31,11 @@ class BuildSummary
         string $username,
         string $reponame,
         array $queryParameters = []
-    ): array {
-        $uri = sprintf('project/%s/%s/%s', $vcsType, $username, $reponame);
+    ): string {
+        $uri = sprintf('project/%s/%s/%s/build-cache', $vcsType, $username, $reponame);
 
-        $response = $this->client->get($uri, $queryParameters);
+        $response = $this->client->delete($uri, $queryParameters);
 
-        return json_decode((string)$response->getBody());
+        return json_decode((string)$response->getBody())->status;
     }
 }

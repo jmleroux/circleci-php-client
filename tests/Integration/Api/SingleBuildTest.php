@@ -8,6 +8,9 @@ use Jmleroux\CircleCi\Api\SingleBuild;
 use Jmleroux\CircleCi\Client;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author  JM Leroux <jmleroux.pro@gmail.com>
+ */
 class SingleBuildTest extends TestCase
 {
     /** @var Client */
@@ -15,8 +18,8 @@ class SingleBuildTest extends TestCase
 
     public function setUp(): void
     {
-        $PERSONALToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
-        $this->client = new Client($PERSONALToken);
+        $personaltoken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
+        $this->client = new Client($personaltoken);
     }
 
     public function testQueryOk()
