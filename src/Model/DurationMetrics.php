@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Jmleroux\CircleCi\Model;
 
-use DateTimeImmutable;
-
 /**
  * @author jmleroux <jmleroux.pro@gmail.com>
  */
-class DurationMetrics
+class DurationMetrics implements ApiResultInterface
 {
     /**
      * Raw object from Circle CI API
@@ -58,7 +56,7 @@ class DurationMetrics
         return $this->rawObject->max;
     }
 
-    public function standardDeviation(): int
+    public function standardDeviation(): float
     {
         return $this->rawObject->standard_deviation;
     }

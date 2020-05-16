@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Jmleroux\CircleCi\Model;
 
-use DateTimeImmutable;
-
 /**
  * @author jmleroux <jmleroux.pro@gmail.com>
  */
-class JobMetrics
+class JobMetrics implements ApiResultInterface
 {
     /**
      * Raw object from Circle CI API
@@ -33,7 +31,7 @@ class JobMetrics
         return $this->rawObject;
     }
 
-    public function successRate(): int
+    public function successRate(): float
     {
         return $this->rawObject->success_rate;
     }
@@ -53,7 +51,7 @@ class JobMetrics
         return $this->rawObject->successful_runs;
     }
 
-    public function throughput(): int
+    public function throughput(): float
     {
         return $this->rawObject->throughput;
     }

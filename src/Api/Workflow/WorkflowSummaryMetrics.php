@@ -6,7 +6,6 @@ namespace Jmleroux\CircleCi\Api\Workflow;
 
 use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\JobSummaryResult;
-use Jmleroux\CircleCi\Model\WorkflowRun;
 use Jmleroux\CircleCi\ValidateClientVersionTrait;
 
 /**
@@ -33,17 +32,32 @@ class WorkflowSummaryMetrics
     /**
      * @return JobSummaryResult[]
      */
-    public function execute(string $projectSlug, string $workflowName, array $queryParameters = []): array
-    {
+    public function execute(
+        string $projectSlug,
+        string $workflowName,
+        array $queryParameters = [],
+        $maxResults = 10
+    ): array {
         $jobSummaries = [];
-
         $uri = sprintf('insights/%s/workflows/%s/jobs', $projectSlug, $workflowName);
-        $response = $this->client->get($uri, $queryParameters);
-        $responseContent = json_decode((string) $response->getBody());
 
-        foreach ($responseContent->items as $item) {
-            $jobSummaries[] = JobSummaryResult::createFromApi($item);
-        }
+        $nextPageToken = $queryParameters['page-token'] ?? null;
+        do {
+            if (null !== $nextPageToken) {
+                $queryParameters['page-token'] = $nextPageToken;
+            }
+
+            $response = $this->client->get($uri, $queryParameters);
+            $responseContent = json_decode((string) $response->getBody());
+            $nextPageToken = $responseContent->next_page_token;
+
+            foreach ($responseContent->items as $item) {
+                $jobSummaries[] = JobSummaryResult::createFromApi($item);
+                if (count($jobSummaries) >= $maxResults) {
+                    break;
+                }
+            }
+        } while (null !== $nextPageToken && count($jobSummaries) < $maxResults);
 
         return $jobSummaries;
     }

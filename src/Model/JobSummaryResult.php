@@ -9,7 +9,7 @@ use DateTimeImmutable;
 /**
  * @author jmleroux <jmleroux.pro@gmail.com>
  */
-class JobSummaryResult
+class JobSummaryResult implements ApiResultInterface
 {
     /**
      * Raw object from Circle CI API
@@ -35,7 +35,7 @@ class JobSummaryResult
 
     public function name(): string
     {
-        return $this->rawObject->id;
+        return $this->rawObject->name;
     }
 
     public function windowStart(): DateTimeImmutable
