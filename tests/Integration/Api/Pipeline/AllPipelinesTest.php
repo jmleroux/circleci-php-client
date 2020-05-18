@@ -28,21 +28,20 @@ class AllPipelinesTest extends TestCase
     {
         $query = new AllPipelines($this->client);
 
-        $result = $query->execute('gh/jmleroux/circleci-php-client', null);
+        $result = $query->execute('gh/jmleroux/circleci-php-client', null, null);
 
-        $this->assertInstanceOf(\stdClass::class, $result);
+        $this->assertIsArray($result);
     }
 
     public function testQueryWithBranch()
     {
         $query = new AllPipelines($this->client);
 
-        $result = $query->execute('gh/jmleroux/circleci-php-client', 'master');
+        $pipelines = $query->execute('gh/jmleroux/circleci-php-client', null, 'master');
 
-        $this->assertInstanceOf(\stdClass::class, $result);
-
-        foreach ($result->items as $pipeline) {
-            $this->assertEquals('master', $pipeline->vcs->branch);
+        $this->assertIsArray($pipelines);
+        foreach ($pipelines as $pipeline) {
+            $this->assertEquals('master', $pipeline->vcs()->branch);
         }
     }
 }

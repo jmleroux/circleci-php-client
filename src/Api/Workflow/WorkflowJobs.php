@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Jmleroux\CircleCi\Api\Pipeline;
+namespace Jmleroux\CircleCi\Api\Workflow;
 
 use Jmleroux\CircleCi\Client;
-use Jmleroux\CircleCi\Model\Workflow;
+use Jmleroux\CircleCi\Model\Job;
 use Jmleroux\CircleCi\ValidateClientVersionTrait;
 
 /**
- * Get all workflows of a pipeline
+ * Get a workflow's jobs
+ * Returns a sequence of jobs for a workflow.
  *
  * @author Benoit Jacquemont <benoit@akeneo.com>
- * @link https://circleci.com/docs/api/v2/#get-a-pipeline-39-s-workflows
+ * @link https://circleci.com/docs/api/v2/#get-a-workflow-39-s-jobs
  */
-class PipelineWorkflows
+class WorkflowJobs
 {
     use ValidateClientVersionTrait;
 
@@ -28,12 +29,12 @@ class PipelineWorkflows
     }
 
     /**
-     * @return Workflow[]
+     * @return Job[]
      */
-    public function execute(string $pipelineId): array
+    public function execute(string $workflowId): array
     {
-        $workflows = [];
-        $uri = sprintf('pipeline/%s/workflow', $pipelineId);
+        $jobs = [];
+        $uri = sprintf('workflow/%s/job', $workflowId);
         $params = [];
 
         $nextPageToken = null;
@@ -46,10 +47,10 @@ class PipelineWorkflows
             $nextPageToken = $response->next_page_token;
 
             foreach ($response->items as $item) {
-                $workflows[] = Workflow::createFromApi($item);
+                $jobs[] = Job::createFromApi($item);
             }
         } while (null !== $nextPageToken);
 
-        return $workflows;
+        return $jobs;
     }
 }

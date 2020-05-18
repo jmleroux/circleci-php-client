@@ -7,6 +7,7 @@ namespace Jmleroux\CircleCi\Tests\Integration\Api\Pipeline;
 use Jmleroux\CircleCi\Api\Pipeline\AllPipelines;
 use Jmleroux\CircleCi\Api\Pipeline\PipelineWorkflows;
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\Model\Workflow;
 use PHPUnit\Framework\TestCase;
 
 class PipelineWorkflowsTest extends TestCase
@@ -28,12 +29,13 @@ class PipelineWorkflowsTest extends TestCase
     public function testQuery()
     {
         $query = new AllPipelines($this->client);
-        $result = $query->execute('gh/jmleroux/circleci-php-client', 'master');
-        $pipeline = $result->items[0];
+        $pipelines = $query->execute('gh/jmleroux/circleci-php-client', null, 'master');
+        $pipeline = $pipelines[0];
 
         $query = new PipelineWorkflows($this->client);
-        $result = $query->execute($pipeline->id);
+        $workflows = $query->execute($pipeline->id());
 
-        $this->assertInstanceOf(\stdClass::class, $result);
+        $this->assertIsArray($workflows);
+        $this->assertInstanceOf(Workflow::class, $workflows[0]);
     }
 }

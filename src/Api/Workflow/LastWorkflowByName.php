@@ -7,6 +7,7 @@ namespace Jmleroux\CircleCi\Api\Workflow;
 use Jmleroux\CircleCi\Api\Pipeline\AllPipelines;
 use Jmleroux\CircleCi\Api\Pipeline\PipelineWorkflows;
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\Model\Pipeline;
 use Jmleroux\CircleCi\Model\Workflow;
 use Jmleroux\CircleCi\ValidateClientVersionTrait;
 
@@ -33,13 +34,13 @@ class LastWorkflowByName
     public function execute(string $projectSlug, string $workflowName, ?string $branch): ?Workflow
     {
         $query = new AllPipelines($this->client);
-        $pipelines = $query->execute($projectSlug, $branch);
+        $pipelines = $query->execute($projectSlug, null, $branch);
 
-        if (0 === count($pipelines->items)) {
+        if (0 === count($pipelines)) {
             return null;
         }
 
-        foreach ($pipelines->items as $pipeline) {
+        foreach ($pipelines as $pipeline) {
             $workflow = $this->getWorkflowByName($pipeline, $workflowName);
             if (null !== $workflow) {
                 return $workflow;
@@ -49,16 +50,16 @@ class LastWorkflowByName
         return null;
     }
 
-    private function getWorkflowByName($pipeline, string $workflowName): ?Workflow
+    private function getWorkflowByName(Pipeline $pipeline, string $workflowName): ?Workflow
     {
         $query = new PipelineWorkflows($this->client);
-        $workflows = $query->execute($pipeline->id);
-        if (0 === count($workflows->items)) {
+        $workflows = $query->execute($pipeline->id());
+        if (0 === count($workflows)) {
             return null;
         }
-        foreach ($workflows->items as $workflow) {
-            if ($workflowName === $workflow->name) {
-                return Workflow::createFromApi($workflow);
+        foreach ($workflows as $workflow) {
+            if ($workflowName === $workflow->name()) {
+                return $workflow;
             }
         }
 
