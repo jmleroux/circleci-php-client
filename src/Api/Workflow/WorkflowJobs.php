@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Jmleroux\CircleCi\Api\Pipeline;
+namespace Jmleroux\CircleCi\Api\Workflow;
 
 use Jmleroux\CircleCi\Client;
-use Jmleroux\CircleCi\Model\Workflow;
+use Jmleroux\CircleCi\Model\Job;
 
 /**
  * Get all workflows of a pipeline
  *
  * @author Benoit Jacquemont <benoit@akeneo.com>
  */
-class PipelineWorkflows
+class WorkflowJobs
 {
     /** @var Client */
     private $client;
@@ -22,13 +22,10 @@ class PipelineWorkflows
         $this->client = $client;
     }
 
-    /**
-     * @return Workflow[]
-     */
-    public function execute(string $pipelineId): array
+    public function execute(string $workflowId): array
     {
-        $workflows = [];
-        $uri = sprintf('pipeline/%s/workflow', $pipelineId);
+        $jobs = [];
+        $uri = sprintf('workflow/%s/job', $workflowId);
         $params = [];
 
         $nextPageToken = null;
@@ -41,10 +38,10 @@ class PipelineWorkflows
             $nextPageToken = $response->next_page_token;
 
             foreach ($response->items as $item) {
-                $workflows[] = Workflow::createFromApi($item);
+                $jobs[] = Job::createFromApi($item);
             }
         } while (null !== $nextPageToken);
 
-        return $workflows;
+        return $jobs;
     }
 }

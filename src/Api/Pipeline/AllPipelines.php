@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Jmleroux\CircleCi\Api\Pipeline;
 
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\Model\Pipeline;
 
 /**
- * Retriece pipelines of a project, otpionaly filtered by branch.
+ * Retrieve pipelines of a project, optionally filtered by branch.
  *
  * @author jmleroux <jmleroux.pro@gmail.com>
  */
@@ -21,17 +22,38 @@ class AllPipelines
         $this->client = $client;
     }
 
-    public function execute(string $projectSlug, ?string $branch): ?\stdClass
+    /**
+     * @return Pipeline[]
+     */
+    public function execute(string $projectSlug, ?int $maxPipelineCount, ?string $branch): array
     {
-        $uri = sprintf('project/%s/pipeline', $projectSlug);
+        $pipelines = [];
 
+        $uri = sprintf('project/%s/pipeline', $projectSlug);
         $params = [];
         if (null !== $branch) {
             $params['branch'] = $branch;
         }
 
-        $response = $this->client->get($uri, $params);
+        $nextPageToken = null;
+        $smallestPipelineNumber = PHP_INT_MAX;
+        do {
+            if (null !== $nextPageToken) {
+                $params['page-token'] = $nextPageToken;
+                unset($params['branch']);
+            }
 
-        return json_decode((string)$response->getBody());
+            $response = json_decode((string) $this->client->get($uri, $params)->getBody());
+            $nextPageToken = $response->next_page_token;
+
+            foreach ($response->items as $item) {
+                $pipeline = Pipeline::createFromApi($item);
+                $lastPipelineNumber = $pipeline->number();
+                $smallestPipelineNumber = min($lastPipelineNumber, $smallestPipelineNumber);
+                $pipelines[] = Pipeline::createFromApi($item);
+            }
+        } while (null !== $nextPageToken && $lastPipelineNumber === $smallestPipelineNumber && count($pipelines) < $maxPipelineCount);
+
+        return $pipelines;
     }
 }
