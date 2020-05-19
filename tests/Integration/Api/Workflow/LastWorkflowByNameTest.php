@@ -18,7 +18,7 @@ class LastWorkflowByNameTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        sleep(1);
+        sleep((int)$_ENV['TEST_DELAY_DURATION']);
     }
 
     public function setUp(): void
