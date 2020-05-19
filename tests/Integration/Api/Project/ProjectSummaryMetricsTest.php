@@ -6,11 +6,9 @@ namespace Jmleroux\CircleCi\Tests\Integration\Api\Workflow;
 
 use DateTimeImmutable;
 use Jmleroux\CircleCi\Api\Project\ProjectSummaryMetrics;
-use Jmleroux\CircleCi\Api\Workflow\WorkflowSummaryMetrics;
 use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\DurationMetrics;
 use Jmleroux\CircleCi\Model\JobMetrics;
-use Jmleroux\CircleCi\Model\JobSummaryResult;
 use Jmleroux\CircleCi\Model\WorkflowSummaryResult;
 use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
 use PHPUnit\Framework\TestCase;
