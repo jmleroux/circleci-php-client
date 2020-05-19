@@ -4,28 +4,20 @@ declare(strict_types=1);
 
 namespace Jmleroux\CircleCi\Model\Pipeline;
 
+use Jmleroux\CircleCi\Model\ApiResultInterface;
+
 /**
  * @author Benoit Jacquemont <benoit@akeneo.com>
+ * @link https://circleci.com/docs/api/v2/#get-a-pipeline
  */
-final class Error
+final class Error implements ApiResultInterface
 {
-    /**
-     * Raw object from Circle CI API
-     *
-     * @var \stdClass
-     */
+    /** @var \stdClass */
     private $rawObject;
-
-    /** @var string */
-    private $type;
-
-    /** @var string */
-    private $message;
 
     private function __construct(\stdClass $rawObject)
     {
-        $this->type = $rawObject->type;
-        $this->message = $rawObject->message;
+        $this->rawObject = $rawObject;
     }
 
     public static function createFromApi(\stdClass $rawObject): self
@@ -33,13 +25,18 @@ final class Error
         return new self($rawObject);
     }
 
+    public function rawValues(): \stdClass
+    {
+        return $this->rawObject;
+    }
+
     public function tyoe(): string
     {
-        return $this->type;
+        return $this->rawObject->type;
     }
 
     public function message(): string
     {
-        return $this->message;
+        return $this->rawObject->message;
     }
 }

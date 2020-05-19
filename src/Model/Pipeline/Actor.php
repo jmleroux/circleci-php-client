@@ -4,35 +4,39 @@ declare(strict_types=1);
 
 namespace Jmleroux\CircleCi\Model\Pipeline;
 
+use Jmleroux\CircleCi\Model\ApiResultInterface;
+
 /**
  * @author Benoit Jacquemont <benoit@akeneo.com>
+ * @link https://circleci.com/docs/api/v2/#get-a-pipeline
  */
-final class Actor
+final class Actor implements ApiResultInterface
 {
-    /** @var string */
-    private $login;
+    /** @var \stdClass */
+    private $rawObject;
 
-    /** @var string */
-    private $avatarUrl;
-
-    private function __construct(string $login, string $avatarUrl)
+    private function __construct(\stdClass $rawObject)
     {
-        $this->login = $login;
-        $this->avatarUrl = $avatarUrl;
+        $this->rawObject = $rawObject;
     }
 
     public static function createFromApi(\stdClass $rawObject): self
     {
-        return new self($rawObject->login, $rawObject->url);
+        return new self($rawObject);
+    }
+
+    public function rawValues(): \stdClass
+    {
+        return $this->rawObject;
     }
 
     public function login(): string
     {
-        return $this->login;
+        return $this->rawObject->login;
     }
 
     public function avatarUrl(): string
     {
-        return $this->avatarUrl;
+        return $this->rawObject->url;
     }
 }

@@ -5,26 +5,20 @@ declare(strict_types=1);
 namespace Jmleroux\CircleCi\Model\Pipeline;
 
 use DateTimeImmutable;
+use Jmleroux\CircleCi\Model\ApiResultInterface;
 
 /**
  * @author Benoit Jacquemont <benoit@akeneo.com>
+ * @link https://circleci.com/docs/api/v2/#get-a-pipeline
  */
-final class Trigger
+final class Trigger implements ApiResultInterface
 {
-    /** @var string */
-    private $type;
+    /** @var \stdClass */
+    private $rawObject;
 
-    /** @var DateTimeImmutable */
-    private $receivedAt;
-
-    /** @var string */
-    private $actor;
-
-    private function __construct(\StdObject $rawObject)
+    private function __construct(\stdClass $rawObject)
     {
-        $this->type = $rawObject->type;
-        $this->receivedAt = new DateTimeImmutable($rawObject->receivedAt);
-        $this->actor = Actor::createFromApi($rawObject->actor);
+        $this->rawObject = $rawObject;
     }
 
     public static function createFromApi(\stdClass $rawObject): self
@@ -32,18 +26,28 @@ final class Trigger
         return new self($rawObject);
     }
 
+    public function rawValues(): \stdClass
+    {
+        return $this->rawObject;
+    }
+
     public function tyoe(): string
     {
-        return $this->type;
+        return $this->rawObject->type;
     }
 
     public function message(): string
     {
-        return $this->message;
+        return $this->rawObject->message;
     }
 
     public function actor(): Actor
     {
-        return $this->actor;
+        return Actor::createFromApi($this->rawObject->actor);
+    }
+
+    public function receivedAt(): DateTimeImmutable
+    {
+        return new DateTimeImmutable($this->rawObject->receivedAt);
     }
 }
