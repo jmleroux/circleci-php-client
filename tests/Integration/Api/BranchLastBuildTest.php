@@ -6,6 +6,7 @@ namespace Jmleroux\CircleCi\Tests\Integration\Api;
 
 use Jmleroux\CircleCi\Api\BranchLastBuild;
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,20 +14,22 @@ use PHPUnit\Framework\TestCase;
  */
 class BranchLastBuildTest extends TestCase
 {
+    use ExecuteWithRetryTrait;
+
     /** @var Client */
     private $client;
 
     public function setUp(): void
     {
-        $PERSONALToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
-        $this->client = new Client($PERSONALToken);
+        $personalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
+        $this->client = new Client($personalToken);
     }
 
     public function testQueryOk()
     {
         $query = new BranchLastBuild($this->client);
 
-        $build = $query->execute('github', 'jmleroux', 'circleci-php-client', 'master');
+        $build = $this->executeWithRetry($query, ['github', 'jmleroux', 'circleci-php-client', 'master']);
 
         $this->assertInstanceOf(\stdClass::class, $build);
         $this->assertSame('master', $build->branch);
@@ -36,7 +39,7 @@ class BranchLastBuildTest extends TestCase
     {
         $query = new BranchLastBuild($this->client);
 
-        $build = $query->execute('github', 'jmleroux', 'circleci-php-client', 'unknown_branch');
+        $build = $this->executeWithRetry($query, ['github', 'jmleroux', 'circleci-php-client', 'unknown_branch']);
 
         $this->assertEmpty($build);
     }

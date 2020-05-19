@@ -6,17 +6,18 @@ namespace Jmleroux\CircleCi\Tests\Integration\Api\Pipeline;
 
 use Jmleroux\CircleCi\Api\Pipeline\AllPipelines;
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author  JM Leroux <jmleroux.pro@gmail.com>
+ */
 class AllPipelinesTest extends TestCase
 {
+    use ExecuteWithRetryTrait;
+
     /** @var Client */
     private $client;
-
-    public static function setUpBeforeClass(): void
-    {
-        sleep(1);
-    }
 
     public function setUp(): void
     {
@@ -28,21 +29,20 @@ class AllPipelinesTest extends TestCase
     {
         $query = new AllPipelines($this->client);
 
-        $result = $query->execute('gh/jmleroux/circleci-php-client', null);
+        $result = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', null, null]);
 
-        $this->assertInstanceOf(\stdClass::class, $result);
+        $this->assertIsArray($result);
     }
 
     public function testQueryWithBranch()
     {
         $query = new AllPipelines($this->client);
 
-        $result = $query->execute('gh/jmleroux/circleci-php-client', 'master');
+        $pipelines = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', null, 'master']);
 
-        $this->assertInstanceOf(\stdClass::class, $result);
-
-        foreach ($result->items as $pipeline) {
-            $this->assertEquals('master', $pipeline->vcs->branch);
+        $this->assertIsArray($pipelines);
+        foreach ($pipelines as $pipeline) {
+            $this->assertEquals('master', $pipeline->vcs()->branch);
         }
     }
 }

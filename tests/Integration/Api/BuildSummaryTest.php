@@ -6,6 +6,7 @@ namespace Jmleroux\CircleCi\Tests\Integration\Api;
 
 use Jmleroux\CircleCi\Api\BuildSummary;
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,20 +14,22 @@ use PHPUnit\Framework\TestCase;
  */
 class BuildSummaryTest extends TestCase
 {
+    use ExecuteWithRetryTrait;
+
     /** @var Client */
     private $client;
 
     public function setUp(): void
     {
-        $PERSONALToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
-        $this->client = new Client($PERSONALToken);
+        $personalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
+        $this->client = new Client($personalToken);
     }
 
     public function testQueryOk()
     {
         $query = new BuildSummary($this->client);
 
-        $build = $query->execute('github', 'jmleroux', 'circleci-php-client');
+        $build = $this->executeWithRetry($query, ['github', 'jmleroux', 'circleci-php-client']);
 
         $this->assertIsArray($build);
     }

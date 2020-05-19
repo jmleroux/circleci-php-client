@@ -8,18 +8,16 @@ use DateTimeInterface;
 use Jmleroux\CircleCi\Aggregation\Workflow\LastWorkflowByName;
 use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\Workflow;
+use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
 class LastWorkflowByNameTest extends TestCase
 {
+    use ExecuteWithRetryTrait;
+
     /** @var Client */
     private $client;
-
-    public static function setUpBeforeClass(): void
-    {
-        sleep(1);
-    }
 
     public function setUp(): void
     {
@@ -31,7 +29,7 @@ class LastWorkflowByNameTest extends TestCase
     {
         $query = new LastWorkflowByName($this->client);
 
-        $workflow = $query->execute('gh/jmleroux/circleci-php-client', 'build_test', null);
+        $workflow = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', 'build_test', null]);
 
         Assert::assertInstanceOf(Workflow::class, $workflow);
         Assert::assertRegExp('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/', $workflow->id());
@@ -45,7 +43,7 @@ class LastWorkflowByNameTest extends TestCase
         Assert::assertIsNumeric($workflow->pipelineNumber());
         Assert::assertEquals('gh/jmleroux/circleci-php-client', $workflow->projectSlug());
 
-        $workflow = $query->execute('gh/jmleroux/circleci-php-client', 'unknown_workflow', null);
+        $workflow = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', 'unknown_workflow', null]);
         Assert::assertNull($workflow);
     }
 }
