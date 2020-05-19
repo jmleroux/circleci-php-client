@@ -15,7 +15,7 @@ use Jmleroux\CircleCi\ValidateClientVersionTrait;
  * Metrics are refreshed daily, and thus may not include executions from the last 24 hours.
  *
  * @author jmleroux <jmleroux.pro@gmail.com>
- * @link   https://circleci.com/docs/api/v2/#get-summary-metrics-for-a-project-workflow-39-s-jobs
+ * @link   https://circleci.com/docs/api/v2/#get-summary-metrics-for-a-project-39-s-workflows
  */
 class ProjectSummaryMetrics
 {
