@@ -31,7 +31,6 @@ class WorkflowRecentRunsTest extends TestCase
             $query,
             ['gh/jmleroux/circleci-php-client', 'build_test', ['branch' => 'master']]
         );
-        $workflowRuns = $query->execute('gh/jmleroux/circleci-php-client', 'build_test', ['branch' => 'master']);
 
         $this->assertIsArray($workflowRuns);
         $this->assertInstanceOf(WorkflowRun::class, $workflowRuns[0]);
