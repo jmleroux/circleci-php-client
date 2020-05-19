@@ -8,30 +8,32 @@ use DateTimeInterface;
 use Jmleroux\CircleCi\Api\Workflow\LastWorkflowByName;
 use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\Workflow;
+use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author  JM Leroux <jmleroux.pro@gmail.com>
+ * @deprecated
+ */
 class LastWorkflowByNameTest extends TestCase
 {
+    use ExecuteWithRetryTrait;
+
     /** @var Client */
     private $client;
 
-    public static function setUpBeforeClass(): void
-    {
-        sleep((int)$_ENV['TEST_DELAY_DURATION']);
-    }
-
     public function setUp(): void
     {
-        $PERSONALToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
-        $this->client = new Client($PERSONALToken, 'v2');
+        $personalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
+        $this->client = new Client($personalToken, 'v2');
     }
 
     public function testQuery()
     {
         $query = new LastWorkflowByName($this->client);
 
-        $workflow = $query->execute('gh/jmleroux/circleci-php-client', 'build_test', null);
+        $workflow = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', 'build_test', null]);
 
         Assert::assertInstanceOf(Workflow::class, $workflow);
         Assert::assertRegExp('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/', $workflow->id());
@@ -45,7 +47,7 @@ class LastWorkflowByNameTest extends TestCase
         Assert::assertIsNumeric($workflow->pipelineNumber());
         Assert::assertEquals('gh/jmleroux/circleci-php-client', $workflow->projectSlug());
 
-        $workflow = $query->execute('gh/jmleroux/circleci-php-client', 'unknown_workflow', null);
+        $workflow = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', 'unknown_workflow', null]);
         Assert::assertNull($workflow);
     }
 }

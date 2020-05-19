@@ -7,18 +7,16 @@ namespace Jmleroux\CircleCi\Tests\Integration\Api\Workflow;
 use Jmleroux\CircleCi\Api\Workflow\WorkflowJobs;
 use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\Job;
+use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
 class WorkflowJobsTest extends TestCase
 {
+    use ExecuteWithRetryTrait;
+
     /** @var Client */
     private $client;
-
-    public static function setUpBeforeClass(): void
-    {
-        sleep((int)$_ENV['TEST_DELAY_DURATION']);
-    }
 
     public function setUp(): void
     {
@@ -29,7 +27,7 @@ class WorkflowJobsTest extends TestCase
     public function testQuery()
     {
         $query = new WorkflowJobs($this->client);
-        $jobs = $query->execute('78176b2f-c1e3-4c18-86e3-5a80a2f109bb');
+        $jobs = $this->executeWithRetry($query, ['78176b2f-c1e3-4c18-86e3-5a80a2f109bb']);
         Assert::assertIsArray($jobs);
 
         $firstJob = $jobs[0];

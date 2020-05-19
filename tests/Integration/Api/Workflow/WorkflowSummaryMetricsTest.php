@@ -10,10 +10,16 @@ use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\DurationMetrics;
 use Jmleroux\CircleCi\Model\JobMetrics;
 use Jmleroux\CircleCi\Model\JobSummaryResult;
+use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author  JM Leroux <jmleroux.pro@gmail.com>
+ */
 class WorkflowSummaryMetricsTest extends TestCase
 {
+    use ExecuteWithRetryTrait;
+
     /** @var Client */
     private $client;
 
@@ -27,7 +33,7 @@ class WorkflowSummaryMetricsTest extends TestCase
     {
         $query = new WorkflowSummaryMetrics($this->client);
 
-        $summaryResults = $query->execute('gh/jmleroux/circleci-php-client', 'build_test');
+        $summaryResults = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', 'build_test']);
         $this->assertIsArray($summaryResults);
         $this->assertCount(2, $summaryResults);
         $this->assertSame('build', $summaryResults[0]->name());
@@ -61,7 +67,7 @@ class WorkflowSummaryMetricsTest extends TestCase
     {
         $query = new WorkflowSummaryMetrics($this->client);
 
-        $summaryResults = $query->execute('gh/jmleroux/circleci-php-client', 'build_test', [], 1);
+        $summaryResults = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', 'build_test', [], 1]);
         $this->assertIsArray($summaryResults);
         $this->assertCount(1, $summaryResults);
         $this->assertSame('build', $summaryResults[0]->name());
@@ -71,7 +77,7 @@ class WorkflowSummaryMetricsTest extends TestCase
     {
         $query = new WorkflowSummaryMetrics($this->client);
 
-        $summaryResults = $query->execute('gh/jmleroux/circleci-php-client', 'unknown_workflow');
+        $summaryResults = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', 'unknown_workflow']);
         $this->assertIsArray($summaryResults);
         $this->assertEmpty($summaryResults);
     }

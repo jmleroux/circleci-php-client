@@ -7,17 +7,15 @@ namespace Jmleroux\CircleCi\Tests\Integration\Api\Workflow;
 use Jmleroux\CircleCi\Api\Workflow\WorkflowRecentRuns;
 use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\WorkflowRun;
+use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
 use PHPUnit\Framework\TestCase;
 
 class WorkflowRecentRunsTest extends TestCase
 {
+    use ExecuteWithRetryTrait;
+
     /** @var Client */
     private $client;
-
-    public static function setUpBeforeClass(): void
-    {
-        sleep((int)$_ENV['TEST_DELAY_DURATION']);
-    }
 
     public function setUp(): void
     {
@@ -29,6 +27,10 @@ class WorkflowRecentRunsTest extends TestCase
     {
         $query = new WorkflowRecentRuns($this->client);
 
+        $workflowRuns = $this->executeWithRetry(
+            $query,
+            ['gh/jmleroux/circleci-php-client', 'build_test', ['branch' => 'master']]
+        );
         $workflowRuns = $query->execute('gh/jmleroux/circleci-php-client', 'build_test', ['branch' => 'master']);
 
         $this->assertIsArray($workflowRuns);

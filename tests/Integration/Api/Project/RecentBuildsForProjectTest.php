@@ -6,6 +6,7 @@ namespace Jmleroux\CircleCi\Tests\Integration\Api\Project;
 
 use Jmleroux\CircleCi\Api\Project\RecentBuildsForProject;
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,17 +14,14 @@ use PHPUnit\Framework\TestCase;
  */
 class RecentBuildsForProjectTest extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        sleep((int)$_ENV['TEST_DELAY_DURATION']);
-    }
+    use ExecuteWithRetryTrait;
 
     public function testQueryOk()
     {
         $personalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
         $client = new Client($personalToken, 'v1.1');
         $query = new RecentBuildsForProject($client);
-        $builds = $query->execute('github', 'jmleroux', 'circleci-php-client');
+        $builds = $this->executeWithRetry($query, ['github', 'jmleroux', 'circleci-php-client']);
         $this->assertIsArray($builds);
 
         $firstBuild = $builds[0];
@@ -61,7 +59,7 @@ class RecentBuildsForProjectTest extends TestCase
         $personalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
         $client = new Client($personalToken, 'v1.1');
         $query = new RecentBuildsForProject($client);
-        $builds = $query->execute('github', 'jmleroux', 'circleci-php-client', [], 10);
+        $builds = $this->executeWithRetry($query, ['github', 'jmleroux', 'circleci-php-client', [], 10]);
         $this->assertCount(10, $builds);
 
         $builds = $query->execute('github', 'jmleroux', 'circleci-php-client', [], 50);

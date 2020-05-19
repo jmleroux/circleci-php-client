@@ -6,6 +6,7 @@ namespace Jmleroux\CircleCi\Tests\Integration\Api;
 
 use Jmleroux\CircleCi\Api\SingleBuild;
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,6 +14,8 @@ use PHPUnit\Framework\TestCase;
  */
 class SingleBuildTest extends TestCase
 {
+    use ExecuteWithRetryTrait;
+
     /** @var Client */
     private $client;
 
@@ -26,7 +29,7 @@ class SingleBuildTest extends TestCase
     {
         $query = new SingleBuild($this->client);
 
-        $build = $query->execute('github', 'jmleroux', 'circleci-php-client', 50);
+        $build = $this->executeWithRetry($query, ['github', 'jmleroux', 'circleci-php-client', 50]);
 
         $this->assertInstanceOf(\stdClass::class, $build);
         $this->assertEquals(50, $build->build_num);

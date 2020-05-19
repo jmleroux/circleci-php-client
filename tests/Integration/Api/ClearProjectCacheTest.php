@@ -6,6 +6,7 @@ namespace Jmleroux\CircleCi\Tests\Integration\Api;
 
 use Jmleroux\CircleCi\Api\ClearProjectCache;
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,6 +14,8 @@ use PHPUnit\Framework\TestCase;
  */
 class ClearProjectCacheTest extends TestCase
 {
+    use ExecuteWithRetryTrait;
+
     /** @var Client */
     private $client;
 
@@ -26,7 +29,7 @@ class ClearProjectCacheTest extends TestCase
     {
         $query = new ClearProjectCache($this->client);
 
-        $result = $query->execute('github', 'jmleroux', 'circleci-php-client');
+        $result = $this->executeWithRetry($query, ['github', 'jmleroux', 'circleci-php-client']);
 
         $this->assertInstanceOf(\stdClass::class, $result);
         $this->assertEquals('build dependency caches deleted', $result->status);

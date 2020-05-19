@@ -6,6 +6,7 @@ namespace Jmleroux\CircleCi\Tests\Integration\Api\Project;
 
 use Jmleroux\CircleCi\Api\Project\BuildSummaryForBranch;
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,17 +14,14 @@ use PHPUnit\Framework\TestCase;
  */
 class BuildSummaryForBranchTest extends TestCase
 {
-    public static function setUpBeforeClass(): void
-    {
-        sleep((int)$_ENV['TEST_DELAY_DURATION']);
-    }
+    use ExecuteWithRetryTrait;
 
     public function testQueryOk()
     {
         $personalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
         $client = new Client($personalToken, 'v1.1');
         $query = new BuildSummaryForBranch($client);
-        $builds = $query->execute('github', 'jmleroux', 'circleci-php-client', 'master');
+        $builds = $this->executeWithRetry($query, ['github', 'jmleroux', 'circleci-php-client', 'master']);
         $this->assertIsArray($builds);
 
         $firstBuild = $builds[0];
@@ -54,7 +52,7 @@ class BuildSummaryForBranchTest extends TestCase
         $personalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
         $client = new Client($personalToken, 'v1.1');
         $query = new BuildSummaryForBranch($client);
-        $builds = $query->execute('github', 'jmleroux', 'circleci-php-client', 'master', [], 8);
+        $builds = $this->executeWithRetry($query, ['github', 'jmleroux', 'circleci-php-client', 'master', [], 8]);
         $this->assertCount(8, $builds);
 
         $builds = $query->execute('github', 'jmleroux', 'circleci-php-client', 'master', [], 50);

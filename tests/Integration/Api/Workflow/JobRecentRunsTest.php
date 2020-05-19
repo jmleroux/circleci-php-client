@@ -7,29 +7,27 @@ namespace Jmleroux\CircleCi\Tests\Integration\Api\Workflow;
 use Jmleroux\CircleCi\Api\Workflow\JobRecentRuns;
 use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\JobRun;
+use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
 use PHPUnit\Framework\TestCase;
 
 class JobRecentRunsTest extends TestCase
 {
+    use ExecuteWithRetryTrait;
+
     /** @var Client */
     private $client;
 
-    public static function setUpBeforeClass(): void
-    {
-        sleep((int)$_ENV['TEST_DELAY_DURATION']);
-    }
-
     public function setUp(): void
     {
-        $PERSONALToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
-        $this->client = new Client($PERSONALToken, 'v2');
+        $personalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
+        $this->client = new Client($personalToken, 'v2');
     }
 
     public function testQuery()
     {
         $query = new JobRecentRuns($this->client);
 
-        $recentRuns = $query->execute('gh/jmleroux/circleci-php-client', 'build_test', 'tests');
+        $recentRuns = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', 'build_test', 'tests']);
         $this->assertIsArray($recentRuns);
 
         $firstRun = $recentRuns[0];
@@ -41,7 +39,7 @@ class JobRecentRunsTest extends TestCase
         $this->assertInstanceOf(\DateTimeImmutable::class, $firstRun->startedAt());
         $this->assertInstanceOf(\DateTimeImmutable::class, $firstRun->stoppedAt());
 
-        $recentRuns = $query->execute('gh/jmleroux/circleci-php-client', 'build_test', 'unknown_job');
+        $recentRuns = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', 'build_test', 'unknown_job']);
 
         $this->assertIsArray($recentRuns);
         $this->assertEmpty($recentRuns);
