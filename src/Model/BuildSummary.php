@@ -108,9 +108,9 @@ class BuildSummary implements ApiResultInterface
         return $this->rawObject->stop_time ? new DateTimeImmutable($this->rawObject->stop_time) : null;
     }
 
-    public function buildTimeMillis(): ?int
+    public function buildTimeMillis(): int
     {
-        return $this->rawObject->build_time_millis ?? null;
+        return $this->rawObject->build_time_millis ?? 0;
     }
 
     public function username(): string
