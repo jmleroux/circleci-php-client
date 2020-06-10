@@ -49,7 +49,9 @@ class BuildSummaryForBranchTest extends TestCase
         $this->assertIsString($firstBuild->username());
         $this->assertIsString($firstBuild->reponame());
         $this->assertIsString($firstBuild->lifecycle());
-        $this->assertIsString($firstBuild->outcome());
+        if (null !== $firstBuild->outcome()) {
+            $this->assertIsString($firstBuild->outcome());
+        }
         $this->assertIsString($firstBuild->status());
     }
 

@@ -45,7 +45,7 @@ class RecentBuildsForProjectTest extends TestCase
             $this->assertIsString($firstBuild->outcome());
         } else {
             $this->assertNull($firstBuild->stopTime());
-            $this->assertNull($firstBuild->buildTimeMillis());
+            $this->assertEquals(0, $firstBuild->buildTimeMillis());
             $this->assertNull($firstBuild->outcome());
         }
         $this->assertIsString($firstBuild->username());
