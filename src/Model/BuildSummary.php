@@ -89,14 +89,18 @@ class BuildSummary implements ApiResultInterface
         return $this->rawObject->dont_build;
     }
 
-    public function queuedAt(): DateTimeImmutable
+    public function queuedAt(): ?DateTimeImmutable
     {
-        return new DateTimeImmutable($this->rawObject->queued_at);
+        if (!isset($this->rawObject->queued_at)) {
+            return null;
+        }
+
+        return $this->rawObject->queued_at ? new DateTimeImmutable($this->rawObject->queued_at) : null;
     }
 
-    public function startTime(): DateTimeImmutable
+    public function startTime(): ?DateTimeImmutable
     {
-        return new DateTimeImmutable($this->rawObject->start_time);
+        return $this->rawObject->start_time ? new DateTimeImmutable($this->rawObject->start_time) : null;
     }
 
     public function stopTime(): ?DateTimeImmutable
