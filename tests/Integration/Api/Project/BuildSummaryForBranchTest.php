@@ -36,9 +36,15 @@ class BuildSummaryForBranchTest extends TestCase
         $this->assertIsString($firstBuild->body());
         $this->assertIsString($firstBuild->why());
         $this->assertNull($firstBuild->dontBuild());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $firstBuild->queuedAt());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $firstBuild->startTime());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $firstBuild->stopTime());
+        if (null !== $firstBuild->queuedAt()) {
+            $this->assertInstanceOf(\DateTimeImmutable::class, $firstBuild->queuedAt());
+        }
+        if (null !== $firstBuild->startTime()) {
+            $this->assertInstanceOf(\DateTimeImmutable::class, $firstBuild->startTime());
+        }
+        if (null !== $firstBuild->stopTime()) {
+            $this->assertInstanceOf(\DateTimeImmutable::class, $firstBuild->stopTime());
+        }
         $this->assertIsInt($firstBuild->buildTimeMillis());
         $this->assertIsString($firstBuild->username());
         $this->assertIsString($firstBuild->reponame());
