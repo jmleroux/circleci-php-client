@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Jmleroux\CircleCi\Model;
 
-use DateTimeImmutable;
-
 /**
  * @author Benoit Jacquemont <benoit@akeneo.com>
  * @link https://circleci.com/docs/api/v2/#get-test-metadata

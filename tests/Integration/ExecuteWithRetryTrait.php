@@ -18,7 +18,6 @@ trait ExecuteWithRetryTrait
             try {
                 return call_user_func_array([$query, 'execute'], $arguments);
             } catch (ClientException $e) {
-                var_dump($retryNumber);
                 if ($e->getCode() === 429 && $retryNumber < 3) {
                     sleep(10);
                     ++$retryNumber;
