@@ -7,15 +7,17 @@ jobs:
         working_directory: ~/repo
 
         steps:
-            -   run:
+            - run:
                     name: Disable XDebug
                     command: sudo sed -i 's/^zend_extension/;zend_extension/g' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
+            - run: sudo docker-php-ext-install sockets
+
             - checkout
 
-            -   run: composer install -n --prefer-dist
+            - run: composer install -n --prefer-dist
 
-            -   persist_to_workspace:
+            - persist_to_workspace:
                     root: ~/repo
                     paths:
                         - vendor
@@ -26,6 +28,12 @@ jobs:
         working_directory: ~/repo
 
         steps:
+            - run:
+                  name: Disable XDebug
+                  command: sudo sed -i 's/^zend_extension/;zend_extension/g' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+            - run: sudo docker-php-ext-install sockets
+
             - checkout
 
             -   attach_workspace:
