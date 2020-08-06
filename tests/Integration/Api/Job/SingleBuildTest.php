@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Jmleroux\CircleCi\Tests\Integration\Api\Job;
 
 use Jmleroux\CircleCi\Api\Job\SingleBuild;
-use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\JobDetails;
-use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
+use Jmleroux\CircleCi\Tests\Integration\TestClient;
+use Jmleroux\CircleCi\Tests\MockServer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -15,15 +15,18 @@ use PHPUnit\Framework\TestCase;
  */
 class SingleBuildTest extends TestCase
 {
-    use ExecuteWithRetryTrait;
+    public static function setUpBeforeClass(): void
+    {
+        MockServer::startServer();
+    }
 
     public function testQueryOk()
     {
         $personaltoken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
-        $client = new Client($personaltoken, 'v1.1');
+        $client = new TestClient(MockServer::getServerRoot(), $personaltoken, 'v1.1');
         $query = new SingleBuild($client);
-        $build = $this->executeWithRetry($query, ['github', 'jmleroux', 'circleci-php-client', 50]);
+        $build = $query->execute('gh', 'jmleroux', 'my_project', 22);
         $this->assertInstanceOf(JobDetails::class, $build);
-        $this->assertEquals(50, $build->buildNum());
+        $this->assertEquals(22, $build->buildNum());
     }
 }

@@ -18,7 +18,8 @@
     "require-dev": {
         "phpunit/phpunit": "^8.5",
         "friendsofphp/php-cs-fixer": "@stable",
-        "symfony/dotenv": "@stable"
+        "symfony/dotenv": "@stable",
+        "donatj/mock-webserver": "^2.1"
     },
     "autoload": {
         "psr-4": {
