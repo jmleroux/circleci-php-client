@@ -16,6 +16,7 @@
         "guzzlehttp/guzzle": "^6.5.3"
     },
     "require-dev": {
+        "ext-sockets": "*",
         "phpunit/phpunit": "^8.5",
         "friendsofphp/php-cs-fixer": "@stable",
         "symfony/dotenv": "@stable",
