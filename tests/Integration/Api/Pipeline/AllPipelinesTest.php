@@ -6,6 +6,7 @@ namespace Jmleroux\CircleCi\Tests\Integration\Api\Pipeline;
 
 use Jmleroux\CircleCi\Api\Pipeline\AllPipelines;
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\Model\Pipeline;
 use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
 use PHPUnit\Framework\TestCase;
 
@@ -42,6 +43,7 @@ class AllPipelinesTest extends TestCase
 
         $this->assertIsArray($pipelines);
         foreach ($pipelines as $pipeline) {
+            $this->assertInstanceOf(Pipeline::class, $pipeline);
             $this->assertEquals('master', $pipeline->vcs()->branch);
         }
     }

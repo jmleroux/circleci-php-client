@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jmleroux\CircleCi\Tests\Integration\Api\Job;
 
 use Jmleroux\CircleCi\Api\Job\JobTestMetadata;
-use Jmleroux\CircleCi\Model\JobDetails;
 use Jmleroux\CircleCi\Model\TestMetadata;
 use Jmleroux\CircleCi\Tests\Integration\TestClient;
 use Jmleroux\CircleCi\Tests\MockServer;

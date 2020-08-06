@@ -42,6 +42,10 @@ class AllPipelines
 
         $nextPageToken = null;
         $smallestPipelineNumber = PHP_INT_MAX;
+        if (null === $maxPipelineCount) {
+            $maxPipelineCount = PHP_INT_MAX;
+        }
+
         do {
             if (null !== $nextPageToken) {
                 $params['page-token'] = $nextPageToken;
@@ -57,7 +61,7 @@ class AllPipelines
                 $smallestPipelineNumber = min($lastPipelineNumber, $smallestPipelineNumber);
                 $pipelines[] = Pipeline::createFromApi($item);
             }
-        } while (null !== $nextPageToken && $lastPipelineNumber === $smallestPipelineNumber && count($pipelines) < $maxPipelineCount);
+        } while (null !== $nextPageToken && count($pipelines) < $maxPipelineCount);
 
         return $pipelines;
     }
