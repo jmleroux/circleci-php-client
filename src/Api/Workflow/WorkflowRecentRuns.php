@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jmleroux\CircleCi\Api\Workflow;
 
 use Jmleroux\CircleCi\Client;
+use Jmleroux\CircleCi\Model\Job;
 use Jmleroux\CircleCi\Model\WorkflowRun;
 use Jmleroux\CircleCi\ValidateClientVersionTrait;
 
@@ -13,7 +14,7 @@ use Jmleroux\CircleCi\ValidateClientVersionTrait;
  * @todo Implement pagination
  *
  * @author jmleroux <jmleroux.pro@gmail.com>
- * @link   https://circleci.com/docs/api/v2/#get-recent-runs-of-a-workflow
+ * @link   https://circleci.com/docs/api/v2/#operation/getProjectWorkflowRuns
  */
 class WorkflowRecentRuns
 {
@@ -36,12 +37,20 @@ class WorkflowRecentRuns
         $workflowRuns = [];
 
         $uri = sprintf('insights/%s/workflows/%s', $projectSlug, $workflowName);
-        $response = $this->client->get($uri, $queryParameters);
-        $responseContent = json_decode((string) $response->getBody());
 
-        foreach ($responseContent->items as $item) {
-            $workflowRuns[] = WorkflowRun::createFromApi($item);
-        }
+        $nextPageToken = null;
+        do {
+            if (null !== $nextPageToken) {
+                $queryParameters['page-token'] = $nextPageToken;
+            }
+
+            $response = json_decode((string) $this->client->get($uri, $queryParameters)->getBody());
+            $nextPageToken = $response->next_page_token;
+
+            foreach ($response->items as $item) {
+                $workflowRuns[] = WorkflowRun::createFromApi($item);
+            }
+        } while (null !== $nextPageToken);
 
         return $workflowRuns;
     }
