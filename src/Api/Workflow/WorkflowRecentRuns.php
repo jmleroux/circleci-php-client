@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jmleroux\CircleCi\Api\Workflow;
 
 use Jmleroux\CircleCi\Client;
-use Jmleroux\CircleCi\Model\Job;
 use Jmleroux\CircleCi\Model\WorkflowRun;
 use Jmleroux\CircleCi\ValidateClientVersionTrait;
 
