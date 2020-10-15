@@ -1,5 +1,4 @@
-DOCKER_RUN = docker-compose run -e PHP_XDEBUG_ENABLED=0 --rm fpm
-DOCKER_RUN_XDEBUG = docker-compose run -e PHP_XDEBUG_ENABLED=1 --rm fpm
+DOCKER_RUN = docker-compose run --rm fpm
 
 .env.local: .env
 	cp -n .env .env.local
@@ -20,4 +19,4 @@ tests:
 
 .PHONY: coverage
 coverage:
-	$(DOCKER_RUN_XDEBUG) vendor/bin/phpunit --coverage-html coverage
+	PHP_XDEBUG_ENABLED=1 $(DOCKER_RUN) vendor/bin/phpunit --coverage-html coverage

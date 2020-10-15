@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
     fpm:
@@ -6,7 +6,7 @@ services:
         environment:
             COMPOSER_HOME: /home/docker/.composer
             PHP_IDE_CONFIG: 'serverName=circleci-api-client'
-            PHP_XDEBUG_ENABLED: 0
+            PHP_XDEBUG_ENABLED: '${PHP_XDEBUG_ENABLED:-0}'
             PHP_XDEBUG_REMOTE_HOST: 172.17.0.1
             XDEBUG_CONFIG: 'remote_host=172.17.0.1'
         user: docker

@@ -18,8 +18,8 @@
     "require-dev": {
         "ext-sockets": "*",
         "phpunit/phpunit": "^8.5",
-        "friendsofphp/php-cs-fixer": "@stable",
-        "symfony/dotenv": "@stable",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "symfony/dotenv": "^5.0",
         "donatj/mock-webserver": "^2.1"
     },
     "autoload": {
