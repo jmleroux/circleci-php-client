@@ -12,7 +12,7 @@ use Jmleroux\CircleCi\ValidateClientVersionTrait;
  * Get all workflows of a pipeline
  *
  * @author Benoit Jacquemont <benoit@akeneo.com>
- * @link https://circleci.com/docs/api/v2/#get-a-pipeline-39-s-workflows
+ * @link https://circleci.com/docs/api/v2/#operation/listWorkflowsByPipelineId
  */
 class PipelineWorkflows
 {
