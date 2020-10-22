@@ -12,7 +12,7 @@ use Jmleroux\CircleCi\ValidateClientVersionTrait;
  * Retrieve pipelines of a project, optionally filtered by branch.
  *
  * @author jmleroux <jmleroux.pro@gmail.com>
- * @link https://circleci.com/docs/api/v2/#get-all-pipelines
+ * @link https://circleci.com/docs/api/v2/#operation/listPipelinesForProject
  */
 class AllPipelines
 {
