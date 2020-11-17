@@ -9,12 +9,11 @@ use Jmleroux\CircleCi\Model\JobSummaryResult;
 use Jmleroux\CircleCi\ValidateClientVersionTrait;
 
 /**
- * Get summary metrics for a project workflow's jobs.
- * Job runs going back at most 90 days are included in the aggregation window.
- * Metrics are refreshed daily, and thus may not include executions from the last 24 hours.
+ * Get recent runs of a job within a workflow.
+ * Runs going back at most 90 days are returned.
  *
  * @author jmleroux <jmleroux.pro@gmail.com>
- * @link   https://circleci.com/docs/api/v2/#get-summary-metrics-for-a-project-workflow-39-s-jobs
+ * @link   https://circleci.com/docs/api/v2/#operation/getProjectJobRuns
  */
 class WorkflowSummaryMetrics
 {
