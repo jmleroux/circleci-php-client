@@ -56,6 +56,11 @@ class JobMetrics implements ApiResultInterface
         return $this->rawObject->throughput;
     }
 
+    public function totalCreditsUsed(): int
+    {
+        return $this->rawObject->total_credits_used;
+    }
+
     public function durationsMetrics(): DurationMetrics
     {
         return DurationMetrics::createFromApi($this->rawObject->duration_metrics);
