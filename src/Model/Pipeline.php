@@ -50,11 +50,6 @@ class Pipeline
         return $errors;
     }
 
-    public function type(): string
-    {
-        return $this->rawObject->status;
-    }
-
     public function projectSlug(): string
     {
         return $this->rawObject->project_slug;
@@ -83,16 +78,6 @@ class Pipeline
     public function trigger(): Trigger
     {
         return Trigger::createFromApi($this->rawObject->trigger);
-    }
-
-    public function pipelineId(): string
-    {
-        return $this->rawObject->pipeline_id;
-    }
-
-    public function pipelineNumber(): int
-    {
-        return $this->rawObject->pipeline_number;
     }
 
     public function vcs(): \stdClass

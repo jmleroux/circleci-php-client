@@ -35,6 +35,25 @@ class AllPipelinesTest extends TestCase
         $this->assertIsArray($result);
     }
 
+    public function testPipelineModel()
+    {
+        $query = new AllPipelines($this->client);
+
+        $result = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', null, null]);
+
+        /** @var Pipeline $pipeline */
+        $pipeline = $result[0];
+
+        $this->assertInstanceOf(Pipeline::class, $pipeline);
+        $this->assertIsString('7a89bb9e-565a-4964-9788-07fac5ae1355', $pipeline->id());
+        $this->assertIsArray($pipeline->errors());
+        $this->assertSame('gh/jmleroux/circleci-php-client', $pipeline->projectSlug());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $pipeline->updatedAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $pipeline->createdAt());
+        $this->assertIsInt($pipeline->number());
+        $this->assertSame('created', $pipeline->state());
+    }
+
     public function testQueryWithBranch()
     {
         $query = new AllPipelines($this->client);
