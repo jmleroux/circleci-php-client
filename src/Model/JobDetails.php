@@ -89,17 +89,17 @@ class JobDetails implements ApiResultInterface
         return $this->rawObject->dont_build;
     }
 
-    public function queuedAt()
+    public function queuedAt(): DateTimeImmutable
     {
         return new DateTimeImmutable($this->rawObject->queued_at);
     }
 
-    public function startTime()
+    public function startTime(): DateTimeImmutable
     {
         return new DateTimeImmutable($this->rawObject->start_time);
     }
 
-    public function stopTime()
+    public function stopTime(): DateTimeImmutable
     {
         return new DateTimeImmutable($this->rawObject->stop_time);
     }
