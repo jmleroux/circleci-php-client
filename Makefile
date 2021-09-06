@@ -15,6 +15,7 @@ setup:
 .PHONY: tests
 tests:
 	$(DOCKER_RUN) ./vendor/bin/php-cs-fixer fix --diff --config=.php_cs.php
+	$(DOCKER_RUN) ./vendor/bin/phpstan analyse src --level 5
 	$(DOCKER_RUN) ./vendor/bin/phpunit ${path}
 
 .PHONY: coverage

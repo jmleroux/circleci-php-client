@@ -40,6 +40,9 @@ class Pipeline
         return $this->rawObject->id;
     }
 
+    /**
+     * @return Error[]
+     */
     public function errors(): array
     {
         $errors = [];

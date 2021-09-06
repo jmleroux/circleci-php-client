@@ -8,7 +8,7 @@ use DateTimeImmutable;
 
 /**
  * @author Benoit Jacquemont <benoit@akeneo.com>
- * @link https://circleci.com/docs/api/v2/#get-a-workflow-39-s-jobs
+ * @link https://circleci.com/docs/api/v2/#operation/listWorkflowJobs
  */
 class Job implements ApiResultInterface
 {
@@ -69,6 +69,9 @@ class Job implements ApiResultInterface
         return $this->rawObject->canceled_by ?? null;
     }
 
+    /**
+     * @return string[]
+     */
     public function dependencies(): array
     {
         return $this->rawObject->dependencies;
