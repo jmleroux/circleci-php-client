@@ -33,6 +33,7 @@ class WorkflowRecentRunsTest extends TestCase
         );
 
         $this->assertIsArray($workflowRuns);
+        $this->assertGreaterThanOrEqual(1, count($workflowRuns));
         $this->assertInstanceOf(WorkflowRun::class, $workflowRuns[0]);
         $this->assertIsString($workflowRuns[0]->id());
         $this->assertIsString($workflowRuns[0]->status());

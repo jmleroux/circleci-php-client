@@ -29,6 +29,7 @@ class JobRecentRunsTest extends TestCase
 
         $recentRuns = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', 'build_test', 'tests']);
         $this->assertIsArray($recentRuns);
+        $this->assertGreaterThanOrEqual(1, count($recentRuns));
 
         $firstRun = $recentRuns[0];
         $this->assertInstanceOf(JobRun::class, $firstRun);
