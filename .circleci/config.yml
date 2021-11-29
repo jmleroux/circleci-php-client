@@ -2,7 +2,7 @@ version: 2
 jobs:
     build:
         docker:
-            -   image: circleci/php:7.2-browsers
+            -   image: circleci/php:7.4-browsers
 
         working_directory: ~/repo
 
@@ -23,7 +23,7 @@ jobs:
                         - vendor
     tests:
         docker:
-            -   image: circleci/php:7.2-browsers
+            -   image: circleci/php:7.4-browsers
 
         working_directory: ~/repo
 
