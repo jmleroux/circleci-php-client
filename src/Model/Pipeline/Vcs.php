@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jmleroux\CircleCi\Model\Pipeline;
 
-use DateTimeImmutable;
 use Jmleroux\CircleCi\Model\ApiResultInterface;
 use Jmleroux\CircleCi\Model\Pipeline\Vcs\Commit;
 
