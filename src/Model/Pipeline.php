@@ -7,6 +7,7 @@ namespace Jmleroux\CircleCi\Model;
 use DateTimeImmutable;
 use Jmleroux\CircleCi\Model\Pipeline\Error;
 use Jmleroux\CircleCi\Model\Pipeline\Trigger;
+use Jmleroux\CircleCi\Model\Pipeline\Vcs;
 
 /**
  * @author Benoit Jacquemont <benoit@akeneo.com>
@@ -83,8 +84,8 @@ class Pipeline
         return Trigger::createFromApi($this->rawObject->trigger);
     }
 
-    public function vcs(): \stdClass
+    public function vcs(): Vcs
     {
-        return $this->rawObject->vcs;
+        return Vcs::createFromApi($this->rawObject->vcs);
     }
 }

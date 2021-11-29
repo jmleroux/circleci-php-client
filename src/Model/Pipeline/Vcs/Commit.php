@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Jmleroux\CircleCi\Model\Pipeline;
+namespace Jmleroux\CircleCi\Model\Pipeline\Vcs;
 
+use DateTimeImmutable;
 use Jmleroux\CircleCi\Model\ApiResultInterface;
 
 /**
- * @author Benoit Jacquemont <benoit@akeneo.com>
+ * @author Brice Le Boulch <airmanbzh@gmail.com>
  * @link https://circleci.com/docs/api/v2/#get-a-pipeline
  */
-final class Error implements ApiResultInterface
+final class Commit implements ApiResultInterface
 {
     /** @var \stdClass */
     private $rawObject;
@@ -30,13 +31,13 @@ final class Error implements ApiResultInterface
         return $this->rawObject;
     }
 
-    public function type(): string
+    public function body(): string
     {
-        return $this->rawObject->type;
+        return $this->rawObject->body;
     }
 
-    public function message(): string
+    public function subject(): string
     {
-        return $this->rawObject->message;
+        return $this->rawObject->subject;
     }
 }
