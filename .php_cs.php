@@ -1,9 +1,11 @@
 <?php
 
+use PhpCsFixer\Config;
+
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__);
 
-return PhpCsFixer\Config::create()
+return (new Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@PSR2' => true,
