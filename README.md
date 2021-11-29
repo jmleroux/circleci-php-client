@@ -23,7 +23,7 @@ make coverage
 Run the example script:
 
 ```bash
-docker-compose run --rm fpm ./doc/examples/last_build.php
+docker-compose run --rm php ./doc/examples/last_build.php
 ```
 
 ```php

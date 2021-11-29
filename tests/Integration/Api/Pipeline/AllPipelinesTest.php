@@ -63,7 +63,7 @@ class AllPipelinesTest extends TestCase
         $this->assertIsArray($pipelines);
         foreach ($pipelines as $pipeline) {
             $this->assertInstanceOf(Pipeline::class, $pipeline);
-            $this->assertEquals('master', $pipeline->vcs()->branch);
+            $this->assertEquals('master', $pipeline->vcs()->branch());
         }
     }
 }
