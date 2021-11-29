@@ -44,14 +44,14 @@ class SingleWorkflowTest extends TestCase
         $workflow = $this->executeWithRetry($query, [$workflow->id()]);
 
         Assert::assertInstanceOf(Workflow::class, $workflow);
-        Assert::assertRegExp('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/', $workflow->id());
+        Assert::assertMatchesRegularExpression('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/', $workflow->id());
         Assert::assertEquals('build_test', $workflow->name());
         Assert::assertTrue(
             in_array($workflow->status(), ['success', 'failed', 'running'], true),
             sprintf('Status %s is unknown', $workflow->status())
         );
         Assert::assertInstanceOf(DateTimeInterface::class, $workflow->createdAt());
-        Assert::assertRegExp('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/', $workflow->pipelineId());
+        Assert::assertMatchesRegularExpression('/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/', $workflow->pipelineId());
         Assert::assertIsNumeric($workflow->pipelineNumber());
         Assert::assertEquals('gh/jmleroux/circleci-php-client', $workflow->projectSlug());
     }

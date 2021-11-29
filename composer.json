@@ -18,7 +18,7 @@
     },
     "require-dev": {
         "ext-sockets": "*",
-        "phpunit/phpunit": "^8.5.14",
+        "phpunit/phpunit": "^9.5.10",
         "friendsofphp/php-cs-fixer": "^3.3.2",
         "symfony/dotenv": "^5.2.3",
         "donatj/mock-webserver": "^2.4.0"
