@@ -92,4 +92,9 @@ class Workflow implements ApiResultInterface
     {
         return $this->rawObject->errored_by;
     }
+
+    public function startedBy(): string
+    {
+        return $this->rawObject->started_by;
+    }
 }
