@@ -77,4 +77,9 @@ class Workflow implements ApiResultInterface
     {
         return $this->rawObject->project_slug;
     }
+
+    public function canceledBy(): string
+    {
+        return $this->rawObject->canceled_by;
+    }
 }
