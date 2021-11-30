@@ -82,4 +82,9 @@ class Workflow implements ApiResultInterface
     {
         return $this->rawObject->canceled_by;
     }
+
+    public function erroredBy(): string
+    {
+        return $this->rawObject->errored_by;
+    }
 }
