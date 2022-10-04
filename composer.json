@@ -10,18 +10,18 @@
         }
     ],
     "require": {
-        "php": "7.4.*",
+        "php": "8.1.*",
         "ext-json": "*",
-        "webmozart/assert": "^1.9.1",
-        "guzzlehttp/guzzle": "^6.5.3 || ^7.4.0",
-        "phpstan/phpstan": "^0.12.99"
+        "webmozart/assert": "^1.11.0",
+        "guzzlehttp/guzzle": "^7.5.0"
     },
     "require-dev": {
         "ext-sockets": "*",
-        "phpunit/phpunit": "^9.5.10",
-        "friendsofphp/php-cs-fixer": "^3.3.2",
-        "symfony/dotenv": "^5.2.3",
-        "donatj/mock-webserver": "^2.4.0"
+        "phpunit/phpunit": "^9.5.25",
+        "friendsofphp/php-cs-fixer": "^3.11.0",
+        "phpstan/phpstan": "^1.8.6",
+        "symfony/dotenv": "^6.1.0",
+        "donatj/mock-webserver": "^2.5.0"
     },
     "autoload": {
         "psr-4": {
