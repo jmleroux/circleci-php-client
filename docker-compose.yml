@@ -5,7 +5,7 @@ services:
         build:
             context: .
             target: dev
-        image: circleci-php-client:php-7.4
+        image: circleci-php-client:php-8.1
         environment:
             COMPOSER_HOME: /home/docker/.composer
             PHP_IDE_CONFIG: 'serverName=circleci-api-client'
