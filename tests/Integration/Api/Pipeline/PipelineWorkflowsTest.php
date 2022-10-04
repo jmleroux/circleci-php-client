@@ -18,8 +18,7 @@ class PipelineWorkflowsTest extends TestCase
 {
     use ExecuteWithRetryTrait;
 
-    /** @var Client */
-    private $client;
+    private Client $client;
 
     public function setUp(): void
     {

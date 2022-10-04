@@ -8,6 +8,8 @@ use Jmleroux\CircleCi\Api\Pipeline\AllPipelines;
 use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\Pipeline;
 use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
+use Jmleroux\CircleCi\Tests\Integration\TestClient;
+use Jmleroux\CircleCi\Tests\MockServer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,20 +19,25 @@ class AllPipelinesTest extends TestCase
 {
     use ExecuteWithRetryTrait;
 
-    /** @var Client */
-    private $client;
+    private Client $client;
+
+    public static function setUpBeforeClass(): void
+    {
+        MockServer::startServer();
+    }
 
     public function setUp(): void
     {
         $personaltoken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
-        $this->client = new Client($personaltoken, 'v2');
+        $this->client = new TestClient(MockServer::getServerRoot(), $personaltoken, 'v2');
+
     }
 
     public function testQuery()
     {
         $query = new AllPipelines($this->client);
 
-        $result = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', null, null]);
+        $result = $this->executeWithRetry($query, ['gh/jmleroux/my_project', null, null]);
 
         $this->assertIsArray($result);
     }
@@ -39,7 +46,7 @@ class AllPipelinesTest extends TestCase
     {
         $query = new AllPipelines($this->client);
 
-        $result = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', null, null]);
+        $result = $this->executeWithRetry($query, ['gh/jmleroux/my_project', null, null]);
 
         /** @var Pipeline $pipeline */
         $pipeline = $result[0];
@@ -47,7 +54,7 @@ class AllPipelinesTest extends TestCase
         $this->assertInstanceOf(Pipeline::class, $pipeline);
         $this->assertIsString('7a89bb9e-565a-4964-9788-07fac5ae1355', $pipeline->id());
         $this->assertIsArray($pipeline->errors());
-        $this->assertSame('gh/jmleroux/circleci-php-client', $pipeline->projectSlug());
+        $this->assertSame('gh/jmleroux/my_project', $pipeline->projectSlug());
         $this->assertInstanceOf(\DateTimeImmutable::class, $pipeline->updatedAt());
         $this->assertInstanceOf(\DateTimeImmutable::class, $pipeline->createdAt());
         $this->assertIsInt($pipeline->number());
@@ -58,7 +65,7 @@ class AllPipelinesTest extends TestCase
     {
         $query = new AllPipelines($this->client);
 
-        $pipelines = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', null, 'master']);
+        $pipelines = $this->executeWithRetry($query, ['gh/jmleroux/my_project', null, 'master']);
 
         $this->assertIsArray($pipelines);
         foreach ($pipelines as $pipeline) {
