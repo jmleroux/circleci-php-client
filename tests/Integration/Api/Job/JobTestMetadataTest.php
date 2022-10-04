@@ -20,12 +20,6 @@ class JobTestMetadataTest extends TestCase
         MockServer::startServer();
     }
 
-    public function testApiVersion()
-    {
-        $personaltoken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
-        $client = new TestClient(MockServer::getServerRoot(), $personaltoken, 'v1.1');
-    }
-
     public function testQueryOk()
     {
         $personaltoken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];

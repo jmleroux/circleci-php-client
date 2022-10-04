@@ -13,9 +13,7 @@ use donatj\MockWebServer\ResponseStack;
  */
 class MockServer
 {
-    /** @var MockWebServer */
-    private static $server;
-    private static $setResponseOfPath;
+    private static ?MockWebServer $server;
 
     public static function startServer(): void
     {
@@ -53,7 +51,6 @@ class MockServer
                 )
             )
         );
-        self::$setResponseOfPath;
     }
 
     public static function getServerRoot(): string
