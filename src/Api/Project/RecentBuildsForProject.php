@@ -48,7 +48,7 @@ class RecentBuildsForProject
                 $queryParameters['offset'] = $offset;
             }
             $response = $this->client->get($uri, $queryParameters);
-            $items = (array) json_decode((string) $response->getBody());
+            $items = (array) json_decode((string) $response->getContent());
             foreach ($items as $item) {
                 $builds[] = BuildSummary::createFromApi($item);
                 if (count($builds) === $maxResults) {

@@ -8,7 +8,7 @@ use Jmleroux\CircleCi\Aggregation\Workflow\LastWorkflowByName;
 use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\Workflow;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ResponseInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class LastWorkflowByNameTest extends TestCase
 {
@@ -16,12 +16,12 @@ class LastWorkflowByNameTest extends TestCase
     {
         $recentsRuns = file_get_contents(__DIR__ . '/../../resources/workflow_recents_runs.json');
         $recentsRunsResponse = $this->createMock(ResponseInterface::class);
-        $recentsRunsResponse->method('getBody')
+        $recentsRunsResponse->method('getContent')
             ->willReturn($recentsRuns);
 
         $singleWorkflow = file_get_contents(__DIR__ . '/../../resources/workflow.json');
         $singleWorkflowResponse = $this->createMock(ResponseInterface::class);
-        $singleWorkflowResponse->method('getBody')
+        $singleWorkflowResponse->method('getContent')
             ->willReturn($singleWorkflow);
 
         $client = $this->createMock(Client::class);

@@ -13,14 +13,14 @@
         "php": "8.1.*",
         "ext-json": "*",
         "webmozart/assert": "^1.11.0",
-        "guzzlehttp/guzzle": "^7.5.0"
+        "symfony/http-client": "^6.1"
     },
     "require-dev": {
         "ext-sockets": "*",
         "phpunit/phpunit": "^9.5.25",
         "friendsofphp/php-cs-fixer": "^3.11.0",
         "phpstan/phpstan": "^1.8.6",
-        "symfony/dotenv": "^6.1.0",
+        "symfony/dotenv": "^6.1",
         "donatj/mock-webserver": "^2.5.0"
     },
     "autoload": {

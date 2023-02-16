@@ -30,7 +30,6 @@ class AllPipelinesTest extends TestCase
     {
         $personaltoken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
         $this->client = new TestClient(MockServer::getServerRoot(), $personaltoken, 'v2');
-
     }
 
     public function testQuery()

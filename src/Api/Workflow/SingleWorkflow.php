@@ -32,6 +32,6 @@ class SingleWorkflow
         $uri = sprintf('workflow/%s', $workflowId);
         $response = $this->client->get($uri);
 
-        return Workflow::createFromApi(json_decode((string) $response->getBody()));
+        return Workflow::createFromApi(json_decode((string) $response->getContent()));
     }
 }

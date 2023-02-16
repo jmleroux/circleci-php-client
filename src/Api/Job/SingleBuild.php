@@ -40,6 +40,6 @@ class SingleBuild
 
         $response = $this->client->get($uri);
 
-        return JobDetails::createFromApi(json_decode((string)$response->getBody()));
+        return JobDetails::createFromApi(json_decode((string)$response->getContent()));
     }
 }
