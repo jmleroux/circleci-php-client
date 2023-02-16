@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jmleroux\CircleCi\Tests\Integration\Api\Workflow;
 
-use GuzzleHttp\Exception\RequestException;
 use Jmleroux\CircleCi\Api\Workflow\CancelWorkflow;
 use Jmleroux\CircleCi\Client;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpClient\Exception\ClientException;
 
 class CancelWorkflowTest extends TestCase
 {
@@ -22,9 +22,8 @@ class CancelWorkflowTest extends TestCase
 
     public function testQueryKo()
     {
-        $this->expectException(RequestException::class);
+        $this->expectException(ClientException::class);
         $this->expectExceptionCode(404);
-        $this->expectExceptionMessage('{"message":"Workflow not found"}');
 
         $query = new CancelWorkflow($this->client);
         $query->execute('foobar');

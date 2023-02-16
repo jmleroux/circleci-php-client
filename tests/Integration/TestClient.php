@@ -17,8 +17,8 @@ class TestClient extends Client
         string $token,
         ?string $version = 'v1.1'
     ) {
+        parent::__construct($token, $version);
         $baseUri = sprintf('%s/api/%s/', $mockServerBaseUrl, $version);
         $this->client = HttpClient::create(['base_uri' => $baseUri]);
-        $this->token = $token;
     }
 }
