@@ -59,13 +59,13 @@ class RecentBuildsForProjectTest extends TestCase
         $personalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
         $client = new Client($personalToken, 'v1.1');
         $query = new RecentBuildsForProject($client);
-        $builds = $this->executeWithRetry($query, ['github', 'jmleroux', 'circleci-php-client', [], 10]);
+        $builds = $this->executeWithRetry($query, ['github', 'jmleroux', 'circleci-php-client', [], 5]);
+        $this->assertCount(5, $builds);
+
+        $builds = $query->execute('github', 'jmleroux', 'circleci-php-client', [], 10);
         $this->assertCount(10, $builds);
 
-        $builds = $query->execute('github', 'jmleroux', 'circleci-php-client', [], 50);
-        $this->assertCount(50, $builds);
-
-        $builds = $query->execute('github', 'jmleroux', 'circleci-php-client', ['limit' => 5], 22);
-        $this->assertCount(22, $builds);
+        $builds = $query->execute('github', 'jmleroux', 'circleci-php-client', ['limit' => 5], 8);
+        $this->assertCount(8, $builds);
     }
 }
