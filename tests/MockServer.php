@@ -51,6 +51,22 @@ class MockServer
                 )
             )
         );
+        self::$server->setResponseOfPath(
+            '/api/v2/insights/gh/jmleroux/my_project/workflows',
+            new Response(
+                file_get_contents(__DIR__ . '/resources/response/insights-workflow.json'),
+                ['Cache-Control' => 'no-cache'],
+                200
+            ),
+        );
+        self::$server->setResponseOfPath(
+            '/api/v2/insights/gh/jmleroux/my_project/workflows/my_workflow_name/jobs',
+            new Response(
+                file_get_contents(__DIR__ . '/resources/response/insights-workflow-jobs.json'),
+                ['Cache-Control' => 'no-cache'],
+                200
+            ),
+        );
     }
 
     public static function getServerRoot(): string

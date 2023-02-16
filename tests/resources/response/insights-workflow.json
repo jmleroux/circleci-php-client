@@ -1,0 +1,28 @@
+{
+    "items": [
+        {
+            "name": "build-and-test",
+            "window_start": "2019-08-24T14:15:22Z",
+            "window_end": "2019-08-24T14:15:22Z",
+            "metrics": {
+                "total_runs": 0,
+                "successful_runs": 0,
+                "mttr": 0,
+                "total_credits_used": 0,
+                "failed_runs": 0,
+                "success_rate": 0,
+                "duration_metrics": {
+                    "min": 0,
+                    "mean": 0,
+                    "median": 0,
+                    "p95": 0,
+                    "max": 0,
+                    "standard_deviation": 0
+                },
+                "total_recoveries": 0,
+                "throughput": 0
+            }
+        }
+    ],
+    "next_page_token": null
+}
