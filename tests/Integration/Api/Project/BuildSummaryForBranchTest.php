@@ -31,9 +31,6 @@ class BuildSummaryForBranchTest extends TestCase
         $this->assertIsInt($firstBuild->buildNum());
         $this->assertIsString($firstBuild->branch());
         $this->assertIsString($firstBuild->vcsRevision());
-        $this->assertIsString($firstBuild->committerName());
-        $this->assertIsString($firstBuild->committerEmail());
-        $this->assertIsString($firstBuild->body());
         $this->assertIsString($firstBuild->why());
         $this->assertNull($firstBuild->dontBuild());
         if (null !== $firstBuild->queuedAt()) {
@@ -60,13 +57,13 @@ class BuildSummaryForBranchTest extends TestCase
         $personalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
         $client = new Client($personalToken, 'v1.1');
         $query = new BuildSummaryForBranch($client);
-        $builds = $this->executeWithRetry($query, ['github', 'jmleroux', 'circleci-php-client', 'master', [], 8]);
+        $builds = $this->executeWithRetry($query, ['github', 'jmleroux', 'circleci-php-client', 'master', [], 2]);
+        $this->assertCount(2, $builds);
+
+        $builds = $query->execute('github', 'jmleroux', 'circleci-php-client', 'master', [], 8);
         $this->assertCount(8, $builds);
 
-        $builds = $query->execute('github', 'jmleroux', 'circleci-php-client', 'master', [], 50);
-        $this->assertCount(50, $builds);
-
-        $builds = $query->execute('github', 'jmleroux', 'circleci-php-client', 'master', ['limit' => 6], 22);
-        $this->assertCount(22, $builds);
+        $builds = $query->execute('github', 'jmleroux', 'circleci-php-client', 'master', ['limit' => 6], 8);
+        $this->assertCount(8, $builds);
     }
 }

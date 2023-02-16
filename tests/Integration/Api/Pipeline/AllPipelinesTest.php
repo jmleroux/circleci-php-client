@@ -21,13 +21,9 @@ class AllPipelinesTest extends TestCase
 
     private Client $client;
 
-    public static function setUpBeforeClass(): void
-    {
-        MockServer::startServer();
-    }
-
     public function setUp(): void
     {
+        MockServer::startServer();
         $personaltoken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
         $this->client = new TestClient(MockServer::getServerRoot(), $personaltoken, 'v2');
     }
@@ -69,7 +65,7 @@ class AllPipelinesTest extends TestCase
         $this->assertIsArray($pipelines);
         foreach ($pipelines as $pipeline) {
             $this->assertInstanceOf(Pipeline::class, $pipeline);
-            $this->assertEquals('master', $pipeline->vcs()->branch());
+            $this->assertEquals('feature/design-new-api', $pipeline->vcs()->branch());
         }
     }
 }

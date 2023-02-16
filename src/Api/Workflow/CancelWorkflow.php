@@ -17,13 +17,9 @@ class CancelWorkflow
 {
     use ValidateClientVersionTrait;
 
-    /** @var Client */
-    private $client;
-
-    public function __construct(Client $client)
+    public function __construct(private Client $client)
     {
         $this->validateClientVersion($client, ['v2']);
-        $this->client = $client;
     }
 
     public function execute(string $workflowId): void

@@ -12,7 +12,6 @@ use Webmozart\Assert\Assert;
 trait ValidateClientVersionTrait
 {
     /**
-     * @param Client $client
      * @param string[]  $supportedVersions
      */
     private function validateClientVersion(Client $client, array $supportedVersions): void

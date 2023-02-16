@@ -11,21 +11,16 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 class Client
 {
     protected HttpClientInterface $client;
-    protected string $token;
 
-    public function __construct(string $token, ?string $version = 'v1.1')
+    public function __construct(private readonly string $token, private readonly ?string $version = 'v1.1')
     {
         $baseUri = sprintf('https://circleci.com/api/%s/', $version);
         $this->client = HttpClient::create(['base_uri' => $baseUri]);
-        $this->token = $token;
     }
 
     public function getVersion(): string
     {
-        $baseUri = 'foo';
-        preg_match('#circleci.com/api/(v[\d\.]+)/#', $baseUri, $result);
-
-        return $result[1];
+        return $this->version;
     }
 
     public function get(string $url, array $params = []): ResponseInterface

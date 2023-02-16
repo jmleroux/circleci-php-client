@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jmleroux\CircleCi\Tests\Integration;
 
-use GuzzleHttp\Exception\ClientException;
+use Symfony\Component\HttpClient\Exception\ClientException;
 
 /**
  * @author  JM Leroux <jmleroux.pro@gmail.com>

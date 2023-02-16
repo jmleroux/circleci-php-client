@@ -1,4 +1,4 @@
-DOCKER_RUN = docker-compose run --rm php
+DOCKER_RUN = docker compose run --rm php
 
 .env.local: .env
 	cp -n .env .env.local
