@@ -4,27 +4,25 @@ declare(strict_types=1);
 
 namespace Jmleroux\CircleCi;
 
-use GuzzleHttp\Client as HttpClient;
-use GuzzleHttp\Psr7\Uri;
-use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class Client
 {
-    /** @var HttpClient */
-    private $client;
-    /** @var string */
-    private $token;
+    protected HttpClientInterface $client;
+    protected string $token;
 
     public function __construct(string $token, ?string $version = 'v1.1')
     {
         $baseUri = sprintf('https://circleci.com/api/%s/', $version);
-        $this->client = new HttpClient(['base_uri' => $baseUri]);
+        $this->client = HttpClient::create(['base_uri' => $baseUri]);
         $this->token = $token;
     }
 
     public function getVersion(): string
     {
-        $baseUri = (string)$this->client->getConfig('base_uri');
+        $baseUri = 'foo';
         preg_match('#circleci.com/api/(v[\d\.]+)/#', $baseUri, $result);
 
         return $result[1];
@@ -32,37 +30,46 @@ class Client
 
     public function get(string $url, array $params = []): ResponseInterface
     {
-        $uri = Uri::withQueryValues(new Uri($url), $params);
-
-        return $this->client->get($uri, [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Circle-Token' => $this->token,
-            ],
-        ]);
+        return $this->client->request(
+            'GET',
+            $url,
+            [
+                'query' => $params,
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Circle-Token' => $this->token,
+                ],
+            ]
+        );
     }
 
     public function post(string $url, array $params = []): ResponseInterface
     {
-        $uri = Uri::withQueryValues(new Uri($url), $params);
-
-        return $this->client->post($uri, [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Circle-Token' => $this->token,
-            ],
-        ]);
+        return $this->client->request(
+            'POST',
+            $url,
+            [
+                'query' => $params,
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Circle-Token' => $this->token,
+                ],
+            ]
+        );
     }
 
     public function delete(string $url, array $params = []): ResponseInterface
     {
-        $uri = Uri::withQueryValues(new Uri($url), $params);
-
-        return $this->client->delete($uri, [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Circle-Token' => $this->token,
-            ],
-        ]);
+        return $this->client->request(
+            'DELETE',
+            $url,
+            [
+                'query' => $params,
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Circle-Token' => $this->token,
+                ],
+            ]
+        );
     }
 }

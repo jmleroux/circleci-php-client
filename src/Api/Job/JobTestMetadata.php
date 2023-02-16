@@ -43,7 +43,7 @@ class JobTestMetadata
                 $params['page-token'] = $nextPageToken;
             }
 
-            $response = json_decode((string) $this->client->get($uri, $params)->getBody());
+            $response = json_decode((string) $this->client->get($uri, $params)->getContent());
             $nextPageToken = $response->next_page_token;
 
             foreach ($response->items as $item) {

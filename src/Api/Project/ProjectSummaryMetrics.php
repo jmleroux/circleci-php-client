@@ -49,7 +49,7 @@ class ProjectSummaryMetrics
             }
 
             $response = $this->client->get($uri, $queryParameters);
-            $responseContent = json_decode((string) $response->getBody());
+            $responseContent = json_decode((string) $response->getContent());
             $nextPageToken = $responseContent->next_page_token;
 
             foreach ($responseContent->items as $item) {

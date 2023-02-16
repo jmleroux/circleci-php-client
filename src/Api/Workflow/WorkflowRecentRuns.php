@@ -43,7 +43,7 @@ class WorkflowRecentRuns
                 $queryParameters['page-token'] = $nextPageToken;
             }
 
-            $response = json_decode((string) $this->client->get($uri, $queryParameters)->getBody());
+            $response = json_decode((string) $this->client->get($uri, $queryParameters)->getContent());
             $nextPageToken = $response->next_page_token;
 
             foreach ($response->items as $item) {

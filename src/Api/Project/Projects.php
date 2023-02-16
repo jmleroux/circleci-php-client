@@ -39,7 +39,7 @@ class Projects
 
         $uri = 'projects';
         $response = $this->client->get($uri);
-        $items = json_decode((string) $response->getBody());
+        $items = json_decode((string) $response->getContent());
 
         foreach ((array) $items as $project) {
             $projects[] = Project::createFromApi($project);

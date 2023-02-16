@@ -40,7 +40,7 @@ class JobRecentRuns
 
         $uri = sprintf('insights/%s/workflows/%s/jobs/%s', $projectSlug, $workflowName, $jobName);
         $response = $this->client->get($uri, $queryParameters);
-        $responseContent = json_decode((string) $response->getBody());
+        $responseContent = json_decode((string) $response->getContent());
 
         foreach ($responseContent->items as $item) {
             $jobRuns[] = JobRun::createFromApi($item);
