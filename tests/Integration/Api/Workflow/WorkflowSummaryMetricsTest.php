@@ -11,6 +11,8 @@ use Jmleroux\CircleCi\Model\DurationMetrics;
 use Jmleroux\CircleCi\Model\JobMetrics;
 use Jmleroux\CircleCi\Model\JobSummaryResult;
 use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
+use Jmleroux\CircleCi\Tests\Integration\TestClient;
+use Jmleroux\CircleCi\Tests\MockServer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,24 +22,24 @@ class WorkflowSummaryMetricsTest extends TestCase
 {
     use ExecuteWithRetryTrait;
 
-    /** @var Client */
-    private $client;
+    private Client $client;
 
     public function setUp(): void
     {
-        $personnalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
-        $this->client = new Client($personnalToken, 'v2');
+        MockServer::startServer();
+        $personalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
+        $this->client = new TestClient(MockServer::getServerRoot(), $personalToken, 'v2');
     }
 
     public function testQuery()
     {
         $query = new WorkflowSummaryMetrics($this->client);
 
-        $summaryResults = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', 'build_test']);
+        $summaryResults = $query->execute('gh/jmleroux/my_project', 'my_workflow_name');
         $this->assertIsArray($summaryResults);
         $this->assertCount(2, $summaryResults);
-        $this->assertSame('build', $summaryResults[0]->name());
-        $this->assertSame('tests', $summaryResults[1]->name());
+        $this->assertSame('job-summary-1', $summaryResults[0]->name());
+        $this->assertSame('job-summary-2', $summaryResults[1]->name());
 
         $firstResult = $summaryResults[0];
         $this->assertInstanceOf(JobSummaryResult::class, $firstResult);
@@ -67,17 +69,20 @@ class WorkflowSummaryMetricsTest extends TestCase
     {
         $query = new WorkflowSummaryMetrics($this->client);
 
-        $summaryResults = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', 'build_test', [], 1]);
+        $summaryResults = $query->execute('gh/jmleroux/my_project', 'my_workflow_name', [], 1);
         $this->assertIsArray($summaryResults);
         $this->assertCount(1, $summaryResults);
-        $this->assertSame('build', $summaryResults[0]->name());
+        $this->assertSame('job-summary-1', $summaryResults[0]->name());
     }
 
     public function testQueryUnknownWorkflow()
     {
-        $query = new WorkflowSummaryMetrics($this->client);
+        $personnalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
+        $client = new Client($personnalToken, 'v2');
 
-        $summaryResults = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', 'unknown_workflow']);
+        $query = new WorkflowSummaryMetrics($client);
+
+        $summaryResults = $query->execute('gh/jmleroux/circleci-php-client', 'unknown_workflow');
         $this->assertIsArray($summaryResults);
         $this->assertEmpty($summaryResults);
     }

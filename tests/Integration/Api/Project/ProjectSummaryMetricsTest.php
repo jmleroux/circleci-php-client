@@ -11,6 +11,8 @@ use Jmleroux\CircleCi\Model\DurationMetrics;
 use Jmleroux\CircleCi\Model\JobMetrics;
 use Jmleroux\CircleCi\Model\WorkflowSummaryResult;
 use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
+use Jmleroux\CircleCi\Tests\Integration\TestClient;
+use Jmleroux\CircleCi\Tests\MockServer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,18 +26,19 @@ class ProjectSummaryMetricsTest extends TestCase
 
     public function setUp(): void
     {
-        $personnalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
-        $this->client = new Client($personnalToken, 'v2');
+        MockServer::startServer();
+        $personalToken = $_ENV['CIRCLECI_PERSONNAL_TOKEN'];
+        $this->client = new TestClient(MockServer::getServerRoot(), $personalToken, 'v2');
     }
 
     public function testQuery()
     {
         $query = new ProjectSummaryMetrics($this->client);
 
-        $summaryResults = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client']);
+        $summaryResults = $query->execute('gh/jmleroux/my_project');
         $this->assertIsArray($summaryResults);
         $this->assertCount(1, $summaryResults);
-        $this->assertSame('build_test', $summaryResults[0]->name());
+        $this->assertSame('build-and-test', $summaryResults[0]->name());
 
         $firstResult = $summaryResults[0];
         $this->assertInstanceOf(WorkflowSummaryResult::class, $firstResult);
@@ -65,9 +68,9 @@ class ProjectSummaryMetricsTest extends TestCase
     {
         $query = new ProjectSummaryMetrics($this->client);
 
-        $summaryResults = $this->executeWithRetry($query, ['gh/jmleroux/circleci-php-client', [], 1]);
+        $summaryResults = $query->execute('gh/jmleroux/my_project', [], 1);
         $this->assertIsArray($summaryResults);
         $this->assertCount(1, $summaryResults);
-        $this->assertSame('build_test', $summaryResults[0]->name());
+        $this->assertSame('build-and-test', $summaryResults[0]->name());
     }
 }
