@@ -95,4 +95,9 @@ class Job implements ApiResultInterface
 
         return new DateTimeImmutable($this->rawObject->stopped_at);
     }
+
+    public function approvalRequestId(): string
+    {
+        return $this->rawObject->approval_request_id;
+    }
 }
