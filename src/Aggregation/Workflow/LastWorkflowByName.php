@@ -19,13 +19,9 @@ class LastWorkflowByName
 {
     use ValidateClientVersionTrait;
 
-    /** @var Client */
-    private $client;
-
-    public function __construct(Client $client)
+    public function __construct(private readonly Client $client)
     {
         $this->validateClientVersion($client, ['v2']);
-        $this->client = $client;
     }
 
     public function execute(string $projectSlug, string $workflowName, ?string $branch): ?Workflow
