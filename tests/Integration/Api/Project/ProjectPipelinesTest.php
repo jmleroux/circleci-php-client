@@ -47,7 +47,7 @@ class ProjectPipelinesTest extends TestCase
         $pipeline = $result[0];
 
         $this->assertInstanceOf(Pipeline::class, $pipeline);
-        $this->assertIsString('7a89bb9e-565a-4964-9788-07fac5ae1355', $pipeline->id());
+        $this->assertIsString($pipeline->id());
         $this->assertIsArray($pipeline->errors());
         $this->assertSame('gh/jmleroux/my_project', $pipeline->projectSlug());
         $this->assertInstanceOf(\DateTimeImmutable::class, $pipeline->updatedAt());
