@@ -41,7 +41,10 @@ class WorkflowRecentRunsTest extends TestCase
         $this->assertInstanceOf(\DateTimeImmutable::class, $workflowRuns[0]->createdAt());
         $this->assertInstanceOf(\DateTimeImmutable::class, $workflowRuns[0]->stoppedAt());
 
-        $workflowRuns = $query->execute('gh/jmleroux/circleci-php-client', 'unknown_workflow');
+        $workflowRuns = $this->executeWithRetry(
+            $query,
+            ['gh/jmleroux/circleci-php-client', 'unknown_workflow']
+        );
 
         $this->assertIsArray($workflowRuns);
         $this->assertEmpty($workflowRuns);
