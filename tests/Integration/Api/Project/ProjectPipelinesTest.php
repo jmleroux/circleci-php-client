@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jmleroux\CircleCi\Tests\Integration\Api\Pipeline;
+namespace Jmleroux\CircleCi\Tests\Integration\Api\Project;
 
-use Jmleroux\CircleCi\Api\Pipeline\AllPipelines;
+use Jmleroux\CircleCi\Api\Project\ProjectPipelines;
 use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\Pipeline;
 use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author  JM Leroux <jmleroux.pro@gmail.com>
  */
-class AllPipelinesTest extends TestCase
+class ProjectPipelinesTest extends TestCase
 {
     use ExecuteWithRetryTrait;
 
@@ -30,7 +30,7 @@ class AllPipelinesTest extends TestCase
 
     public function testQuery()
     {
-        $query = new AllPipelines($this->client);
+        $query = new ProjectPipelines($this->client);
 
         $result = $this->executeWithRetry($query, ['gh/jmleroux/my_project', null, null]);
 
@@ -39,7 +39,7 @@ class AllPipelinesTest extends TestCase
 
     public function testPipelineModel()
     {
-        $query = new AllPipelines($this->client);
+        $query = new ProjectPipelines($this->client);
 
         $result = $this->executeWithRetry($query, ['gh/jmleroux/my_project', null, null]);
 
@@ -58,7 +58,7 @@ class AllPipelinesTest extends TestCase
 
     public function testQueryWithBranch()
     {
-        $query = new AllPipelines($this->client);
+        $query = new ProjectPipelines($this->client);
 
         $pipelines = $this->executeWithRetry($query, ['gh/jmleroux/my_project', null, 'master']);
 
