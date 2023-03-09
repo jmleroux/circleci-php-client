@@ -9,12 +9,11 @@ use Jmleroux\CircleCi\Model\Pipeline\Vcs\Commit;
 
 /**
  * @author Brice Le Boulch <airmanbzh@gmail.com>
- * @link https://circleci.com/docs/api/v2/#get-a-pipeline
+ * @link https://circleci.com/docs/api/v2/index.html#operation/getPipelineById
  */
 final class Vcs implements ApiResultInterface
 {
-    /** @var \stdClass */
-    private $rawObject;
+    private \stdClass $rawObject;
 
     private function __construct(\stdClass $rawObject)
     {
@@ -56,8 +55,21 @@ final class Vcs implements ApiResultInterface
         return Commit::createFromApi($this->rawObject->actor);
     }
 
-    public function branch(): string
+    /**
+     * Can be null in case of a triggered build
+     * @see https://github.com/jmleroux/circleci-php-client/issues/51
+     */
+    public function branch(): ?string
     {
         return $this->rawObject->branch;
+    }
+
+    /**
+     * In case of a triggered build
+     * @see https://github.com/jmleroux/circleci-php-client/issues/51
+     */
+    public function tag(): ?string
+    {
+        return $this->rawObject->tag;
     }
 }
