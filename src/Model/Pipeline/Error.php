@@ -8,12 +8,11 @@ use Jmleroux\CircleCi\Model\ApiResultInterface;
 
 /**
  * @author Benoit Jacquemont <benoit@akeneo.com>
- * @link https://circleci.com/docs/api/v2/#get-a-pipeline
+ * @link   https://circleci.com/docs/api/v2/#get-a-pipeline
  */
 final class Error implements ApiResultInterface
 {
-    /** @var \stdClass */
-    private $rawObject;
+    private \stdClass $rawObject;
 
     private function __construct(\stdClass $rawObject)
     {

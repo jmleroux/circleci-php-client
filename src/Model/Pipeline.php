@@ -16,10 +16,8 @@ class Pipeline
 {
     /**
      * Raw object from Circle CI API
-     *
-     * @var \stdClass
      */
-    private $rawObject;
+    private \stdClass $rawObject;
 
     private function __construct(\stdClass $rawObject)
     {
@@ -59,14 +57,19 @@ class Pipeline
         return $this->rawObject->project_slug;
     }
 
-    public function updatedAt(): DateTimeImmutable
+    public function updatedAt(): ?DateTimeImmutable
     {
-        return new DateTimeImmutable($this->rawObject->updated_at);
+        return $this->rawObject->updated_at ? new DateTimeImmutable($this->rawObject->updated_at) : null;
     }
 
     public function number(): int
     {
         return $this->rawObject->number;
+    }
+
+    public function triggerParameters(): ?array
+    {
+        return isset($this->rawObject->trigger_parameters) ? (array)$this->rawObject->trigger_parameters : null;
     }
 
     public function state(): string
@@ -84,8 +87,8 @@ class Pipeline
         return Trigger::createFromApi($this->rawObject->trigger);
     }
 
-    public function vcs(): Vcs
+    public function vcs(): ?Vcs
     {
-        return Vcs::createFromApi($this->rawObject->vcs);
+        return isset($this->rawObject->vcs) ? Vcs::createFromApi($this->rawObject->vcs) : null;
     }
 }
