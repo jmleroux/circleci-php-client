@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Jmleroux\CircleCi\Model\Pipeline;
+namespace Jmleroux\CircleCi\Model\Project;
 
-use DateTimeImmutable;
 use Jmleroux\CircleCi\Model\ApiResultInterface;
 
 /**
- * @author Benoit Jacquemont <benoit@akeneo.com>
+ * @author Brice Le Boulch <airmanbzh@gmail.com>
  * @link   https://circleci.com/docs/api/v2/index.html#operation/getPipelineById
  */
-final class Trigger implements ApiResultInterface
+final class VcsInfo implements ApiResultInterface
 {
     private \stdClass $rawObject;
 
@@ -30,18 +29,18 @@ final class Trigger implements ApiResultInterface
         return $this->rawObject;
     }
 
-    public function type(): string
+    public function vcsUrl(): string
     {
-        return $this->rawObject->type;
+        return $this->rawObject->vcs_url;
     }
 
-    public function actor(): Actor
+    public function provider(): string
     {
-        return Actor::createFromApi($this->rawObject->actor);
+        return $this->rawObject->provider;
     }
 
-    public function receivedAt(): DateTimeImmutable
+    public function defaultBranch(): string
     {
-        return new DateTimeImmutable($this->rawObject->receivedAt);
+        return $this->rawObject->default_branch;
     }
 }

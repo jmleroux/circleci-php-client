@@ -12,8 +12,7 @@ use Jmleroux\CircleCi\Model\ApiResultInterface;
  */
 final class Actor implements ApiResultInterface
 {
-    /** @var \stdClass */
-    private $rawObject;
+    private \stdClass $rawObject;
 
     private function __construct(\stdClass $rawObject)
     {
