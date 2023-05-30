@@ -23,7 +23,7 @@ jobs:
 
       - checkout
 
-      - run: composer install -n --prefer-dist
+      - run: composer update -n --prefer-dist
 
       - persist_to_workspace:
           root: ~/repo
