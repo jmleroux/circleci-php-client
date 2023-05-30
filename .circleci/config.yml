@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 executors:
   php_8.1:
@@ -10,7 +10,11 @@ executors:
 
 jobs:
     build:
-        executor: php_8.2
+        parameters:
+            php_executor:
+                type: executor
+
+        executor: << parameters.php_executor >>
 
         working_directory: ~/repo
 
