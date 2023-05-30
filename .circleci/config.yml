@@ -65,12 +65,14 @@ workflows:
   build_test:
     jobs:
       - build:
+          name: build-<< matrix.php_executor >>
           matrix:
             parameters:
               php_executor: [ 'php_8_1', 'php_8_2' ]
       - tests:
+          name: tests-<< matrix.php_executor >>
           matrix:
             parameters:
               php_executor: [ 'php_8_1', 'php_8_2' ]
           requires:
-            - build-<< parameters.php_executor >>
+            - build-<< matrix.php_executor >>
