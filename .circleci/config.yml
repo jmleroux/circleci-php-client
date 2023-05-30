@@ -1,6 +1,9 @@
 version: 2
 jobs:
     build:
+        parameters:
+            php_executor:
+                type: string
         docker:
             -   image: << parameters.php_executor >>
 
