@@ -14,7 +14,7 @@ jobs:
             php_executor:
                 type: executor
 
-        executor: << parameters.php_executor >>
+        executor: php_8.2
 
         working_directory: ~/repo
 
