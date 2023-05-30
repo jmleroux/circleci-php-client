@@ -69,5 +69,8 @@ workflows:
             parameters:
               php_executor: [ 'php_8_1', 'php_8_2' ]
       - tests:
+          matrix:
+            parameters:
+              php_executor: [ 'php_8_1', 'php_8_2' ]
           requires:
             - build
