@@ -1,11 +1,20 @@
 version: 2
+
+executors:
+  php_8.1:
+    docker:
+      - image: cimg/php:8.1-browsers
+  php_8.2:
+    docker:
+      - image: cimg/php:8.2-browsers
+
 jobs:
     build:
         parameters:
             php_executor:
-                type: string
-        docker:
-            -   image: << parameters.php_executor >>
+                type: executor
+
+        executor: << parameters.php_executor >>
 
         working_directory: ~/repo
 
@@ -55,7 +64,7 @@ workflows:
             - build:
                 matrix:
                   parameters:
-                    php_executor: [ 'cimg/php:8.1-browsers', 'cimg/php:8.2-browsers' ]
+                    php_executor: [ 'php_8.1', 'php_8.2' ]
             - tests:
                   requires:
                       - build
