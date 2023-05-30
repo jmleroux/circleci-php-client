@@ -10,10 +10,6 @@ executors:
 
 jobs:
     build:
-        parameters:
-            php_executor:
-                type: executor
-
         executor: php_8.2
 
         working_directory: ~/repo
