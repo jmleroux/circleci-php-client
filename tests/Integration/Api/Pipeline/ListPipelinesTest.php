@@ -7,6 +7,7 @@ namespace Jmleroux\CircleCi\Tests\Integration\Api\Pipeline;
 use Jmleroux\CircleCi\Api\Pipeline\ListPipelines;
 use Jmleroux\CircleCi\Client;
 use Jmleroux\CircleCi\Model\Pipeline;
+use Jmleroux\CircleCi\Model\Pipeline\Vcs;
 use Jmleroux\CircleCi\Tests\Integration\ExecuteWithRetryTrait;
 use PHPUnit\Framework\TestCase;
 
@@ -62,5 +63,8 @@ class ListPipelinesTest extends TestCase
         $this->assertInstanceOf(\DateTimeImmutable::class, $pipeline->createdAt());
         $this->assertIsInt($pipeline->number());
         $this->assertIsString($pipeline->state());
+        $this->assertNull($pipeline->triggerParameters());
+        $this->assertInstanceOf(Pipeline\Trigger::class, $pipeline->trigger());
+        $this->assertInstanceOf(Vcs::class, $pipeline->vcs());
     }
 }

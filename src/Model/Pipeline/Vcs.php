@@ -9,7 +9,7 @@ use Jmleroux\CircleCi\Model\Pipeline\Vcs\Commit;
 
 /**
  * @author Brice Le Boulch <airmanbzh@gmail.com>
- * @link https://circleci.com/docs/api/v2/index.html#operation/getPipelineById
+ * @link   https://circleci.com/docs/api/v2/index.html#operation/getPipelineById
  */
 final class Vcs implements ApiResultInterface
 {
@@ -50,9 +50,9 @@ final class Vcs implements ApiResultInterface
         return $this->rawObject->provider_name;
     }
 
-    public function commit(): Commit
+    public function commit(): ?Commit
     {
-        return Commit::createFromApi($this->rawObject->actor);
+        return isset($this->rawObject->commit) ? Commit::createFromApi($this->rawObject->commit) : null;
     }
 
     /**
@@ -61,7 +61,7 @@ final class Vcs implements ApiResultInterface
      */
     public function branch(): ?string
     {
-        return $this->rawObject->branch;
+        return $this->rawObject->branch ?? null;
     }
 
     /**
@@ -70,6 +70,16 @@ final class Vcs implements ApiResultInterface
      */
     public function tag(): ?string
     {
-        return $this->rawObject->tag;
+        return $this->rawObject->tag ?? null;
+    }
+
+    public function reviewId(): ?string
+    {
+        return $this->rawObject->review_id ?? null;
+    }
+
+    public function reviewUrl(): ?string
+    {
+        return $this->rawObject->review_url ?? null;
     }
 }

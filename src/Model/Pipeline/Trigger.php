@@ -9,12 +9,11 @@ use Jmleroux\CircleCi\Model\ApiResultInterface;
 
 /**
  * @author Benoit Jacquemont <benoit@akeneo.com>
- * @link https://circleci.com/docs/api/v2/#get-a-pipeline
+ * @link   https://circleci.com/docs/api/v2/index.html#operation/getPipelineById
  */
 final class Trigger implements ApiResultInterface
 {
-    /** @var \stdClass */
-    private $rawObject;
+    private \stdClass $rawObject;
 
     private function __construct(\stdClass $rawObject)
     {
@@ -31,14 +30,9 @@ final class Trigger implements ApiResultInterface
         return $this->rawObject;
     }
 
-    public function tyoe(): string
+    public function type(): string
     {
         return $this->rawObject->type;
-    }
-
-    public function message(): string
-    {
-        return $this->rawObject->message;
     }
 
     public function actor(): Actor

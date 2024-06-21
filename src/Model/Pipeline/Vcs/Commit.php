@@ -12,8 +12,7 @@ use Jmleroux\CircleCi\Model\ApiResultInterface;
  */
 final class Commit implements ApiResultInterface
 {
-    /** @var \stdClass */
-    private $rawObject;
+    private \stdClass $rawObject;
 
     private function __construct(\stdClass $rawObject)
     {
